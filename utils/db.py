@@ -5,19 +5,36 @@ db = sqlite3.connect(dbFile)
 cursor = db.cursor()
 
 #@param info == dictionary with necessary information
-def addLawyer( info ):    
-    for k in info:
-        p = "INSERT INTO lawyer VALUES (\'"+k['name']+"\',"+k['currState']+","+k['rating']+");"
-        cursor.execute(p)
-    #runs checkWaitList for clients
+def addLawyer( info ):  
+    client = checkWaitList( info['currState'] )
+    pair = ''
+    if client is None:
+        pair = "N/A"
+    else:
+        pair = client
+    p = "INSERT INTO lawyers VALUES ( '%s', '%s', '%s', '%s', %d );"%( info['id'], pair, info['name'], info['currState'], 3 );
+    cursor.execute(p)
     pass
 
 #@param info == dictionary with necessary information
 def addClient( info ):
-    for k in info:
-        p = "INSERT INTO client VALUES (\'"+k['age']+"\',"+k['currState']+");"
-        cursor.execute(p)
-    pass
+    q = "SELECT * FROM lawyers WHERE pair = 'N/A' AND currState = %s;"%( info['currState'] )
+    result = cursor.execute(q).fetchone()
+    pair = ''
+    if result is None:
+        q = "SELECT * FROM lawyers WHERE pair = 'N/A';"
+        result = cursor.execute( q ).fetchone()
+        if result is None:
+            q = "INSERT INTO waitlist VALUES ( '%s' );"%( info['id'])
+            cursor.execute(q)
+            pair = "N/A"
+        else:
+            pair = result[1]
+    else:
+        pair = result[1]
+    p = "INSERT INTO clients VALUES ( '%s', '%s', %d, '%s', '%s' );"%( info['id'], pair, info['age'], info['currState'], info['focus'] )
+    cursor.execute(p)
+    
 
 #@param info 
 def findMatchingId( _id ):
