@@ -71,7 +71,13 @@ def webhook():
                         send_message(sender_id, "You are a volunteer")
                     elif action == "CLIENT":
                         send_categories(sender_id)
-
+                    elif action == "IMMIGRATION_LAW":
+                        pass
+                        # save immigration law as category
+                    elif action == "CITIZENSHIP":
+                        pass
+                    elif action == "VISA":
+                        pass
     return "ok", 200
 
 # BOTH: VOLUNTEER OR CLIENT?
@@ -134,7 +140,7 @@ def send_categories(recipient_id):
               "type":"template",
               "payload":{
                 "template_type":"button",
-                "text":"Choose a category that best suits your question?:",
+                "text":"Choose a category that best suits your question:",
                 "buttons":[
                   {
                     "type":"postback",
@@ -150,11 +156,6 @@ def send_categories(recipient_id):
                     "type":"postback",
                     "title":"VISA",
                     "payload":"VISA"
-                  },
-                  {
-                    "type":"postback",
-                    "title":"Deportation",
-                    "payload":"DEPORTATION"
                   }
                 ]
               }
