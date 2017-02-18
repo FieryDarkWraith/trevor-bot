@@ -43,17 +43,13 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
 
                     action = ""
-
-
-                    action = ""
                     if "postback" in messaging_event:
-
                         action = messaging_event["postback"]["payload"]
-
-                    if (action == "VOLUNTEER"):
-                        send_message(sender_id, "V")
+                    log("ACTION: " + action)
+                    if action == "VOLUNTEER":
+                        send_message(sender_id, "You are a volunteer")
                     elif action == "CLIENT":
-                        send_message(sender_id, "C")
+                        send_message(sender_id, "You are a client")
                     else:
                         send_start(sender_id) # VOLUNTEER OR CLIENT?
 
@@ -150,7 +146,6 @@ def send_message(recipient_id, message_text):
 def log(message):  # simple wrapper for logging to stdout on heroku
     print str(message)
     sys.stdout.flush()
-
 
 if __name__ == '__main__':
     app.run(debug=True)
