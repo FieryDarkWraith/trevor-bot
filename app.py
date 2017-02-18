@@ -38,6 +38,14 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     message_text = messaging_event["message"]["text"]  # the message's text
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
+                    action = messaging_event["postback"]["payload"]
+
+                    if (action == "VOLUNTEER"):
+                        send_message(sender_id, "V")
+                    elif action == "CLIENT":
+                        send_message(sender_id, "C")
+                    else:
+                        send_start(sender_id) # VOLUNTEER OR CLIENT?
 
                     '''
 
@@ -49,7 +57,6 @@ def webhook():
 
                     '''
                     # respond
-                    send_start(sender_id)
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
