@@ -70,7 +70,7 @@ def webhook():
                     if action == "VOLUNTEER":
                         send_message(sender_id, "You are a volunteer")
                     elif action == "CLIENT":
-                        send_categories(sender_id, "You are a client")
+                        send_categories(sender_id)
 
     return "ok", 200
 
