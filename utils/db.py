@@ -6,13 +6,17 @@ cursor = db.cursor()
 
 #@param info == dictionary with necessary information
 def addLawyer( info ):    
-    #adds lawyer to database
+    for k in info:
+        p = "INSERT INTO lawyer VALUES (\'"+k['name']+"\',"+k['currState']+","+k['rating']+");"
+        cursor.execute(p)
     #runs checkWaitList for clients
     pass
 
 #@param info == dictionary with necessary information
 def addClient( info ):
-    #adds a client
+    for k in info:
+        p = "INSERT INTO client VALUES (\'"+k['age']+"\',"+k['currState']+");"
+        cursor.execute(p)
     pass
 
 #@param info 
