@@ -29,4 +29,3 @@ def unpair( firstId, secondId ):
     # frees the lawyer to receive a new client ( runs checkWaitList )
     pass
 
-

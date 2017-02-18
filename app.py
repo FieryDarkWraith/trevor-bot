@@ -39,16 +39,14 @@ def webhook():
                     message_text = messaging_event["message"]["text"]  # the message's text
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
 
-                    send_message( sender_id, 'GoodShet')
-                    
                     '''
-                    
+
                     if( db.findMatchingId( sender_id ) != None ):
                         new_recipient_id = findMatchingId( sender_id )
                         send_message( new_recipient_id, message_text )
                     else:
                         send_message( sender_id, "Are you a lawyer or client?")
-                
+
                     '''
                     # respond
                     send_message(sender_id, "got it, thanks!")
@@ -79,23 +77,34 @@ def send_message(recipient_id, message_text):
         "recipient": {
             "id": recipient_id
         },
-        "message": {
-            "text": message_text,
-            "buttons":[
-              {
-                "type":"web_url",
-                "url":"https://petersfancyapparel.com/classic_white_tshirt",
-                "title":"View Item",
-                "webview_height_ratio": "compact"
+         "message":{
+            "attachment":{
+              "type":"template",
+              "payload":{
+                "template_type":"button",
+                "text":"What do you want to do next?",
+                "buttons":[
+                  {
+                    "type":"web_url",
+                    "url":"https://petersapparel.parseapp.com",
+                    "title":"Show Website"
+                  },
+                  {
+                    "type":"postback",
+                    "title":"Start Chatting",
+                    "payload":"USER_DEFINED_PAYLOAD"
+                  }
+                ]
               }
-            ]
+            }
         }
     })
+    log(data)
+    print data
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
     if r.status_code != 200:
         log(r.status_code)
         log(r.text)
-
 
 def log(message):  # simple wrapper for logging to stdout on heroku
     print str(message)
