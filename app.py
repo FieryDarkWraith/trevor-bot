@@ -6,13 +6,6 @@ import requests
 from flask import Flask, request
 #from utils import db
 
-global START
-START = False
-global AGE
-AGE = False
-global STATE
-STATE = False
-
 app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
@@ -30,7 +23,13 @@ def verify():
 @app.route('/', methods=['POST'])
 def webhook():
     # endpoint for processing incoming messaging events
-
+    varEstablished = FALSE
+    if not varEstablished:
+        STATE = True
+        AGE = True
+        STATE = True
+        varEstablished = FALSE
+        
     data = request.get_json()
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
 
