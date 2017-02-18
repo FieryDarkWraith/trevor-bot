@@ -1,6 +1,6 @@
 import sqlite3
 
-dbFile = "data/trev.db"
+#dbFile = "data/trev.db"
 db = sqlite3.connect(dbFile)
 cursor = db.cursor()
 
@@ -20,7 +20,7 @@ def findMatchingId( id ):
 
 def checkWaitList( ):
     #checks the waitlist table of clients.
-    #returns the first client. 
+    #returns the first client.
     pass
 
 def unpair( firstId, secondId ):
@@ -28,4 +28,3 @@ def unpair( firstId, secondId ):
     # removes the client from the database.
     # frees the lawyer to receive a new client ( runs checkWaitList )
     pass
-
