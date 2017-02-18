@@ -49,16 +49,25 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     message_text = messaging_event["message"]["text"]  # the message's text
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
-                    if not START:
+
+                    if (message_text == "RESTART"):
+                        START = False
+                        AGE = False
+                        STATE = False
+                        
+                    elif not START:
                         send_start(sender_id) # VOLUNTEER OR CLIENT?
                         START = True
                         log("START")
+
                     elif not AGE:
-                        # save mesage_text as AGE
+                        # save message_text as AGE
                         AGE = True
                         log("AGE")
                         send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) \nEnter in the initials of your state (eg: NY or PA) OR enter SKIP:")
+
                     elif not STATE:
+                        # save message_text as STATE
                         STATE = True
                         log("STATE")
                         send_message(sender_id, "We will connect you to your volunteer legal advisor shortly.")
