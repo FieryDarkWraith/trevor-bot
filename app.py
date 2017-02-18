@@ -45,7 +45,9 @@ def webhook():
                     action = ""
                     if "postback" in messaging_event:
                         action = messaging_event["postback"]["payload"]
+                        
                     log("ACTION: " + action)
+
                     if action == "VOLUNTEER":
                         send_message(sender_id, "You are a volunteer")
                     elif action == "CLIENT":
