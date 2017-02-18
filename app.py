@@ -58,7 +58,7 @@ def webhook():
                     elif not STATE:
                         STATE = True
                         log("STATE")
-                        end_message(sender_id, "We will connect you to your volunteer legal advisor shortly.")
+                        send_message(sender_id, "We will connect you to your volunteer legal advisor shortly.")
 
                     '''
 
