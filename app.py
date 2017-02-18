@@ -8,6 +8,7 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
+START = AGE = STATE = False
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -37,7 +38,6 @@ def webhook():
                 log(messaging_event)
 
                 if messaging_event.get("message"):  # someone sent us a message
-                    START = AGE = STATE = False
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     message_text = messaging_event["message"]["text"]  # the message's text
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
@@ -49,10 +49,11 @@ def webhook():
                         # save mesage_text as AGE
                         AGE = True
                         log("AGE")
-                        send_message(sender_id, "(OPTIONAL - for your lawyer to better understand your case) Enter your state:")
+                        send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) Enter your state:")
                     elif not STATE:
                         STATE = True
                         log("STATE")
+                        end_message(sender_id, "We will connect you to your volunteer legal advisor shortly.")
 
                     '''
 
@@ -89,7 +90,7 @@ def webhook():
                             pass
                         elif action == "VISA":
                             pass
-                        send_message(sender_id, "(OPTIONAL - for your lawyer to better understand your case) Enter your age:")
+                        send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) Enter your age:")
 
     return "ok", 200
 
