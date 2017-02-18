@@ -12,6 +12,10 @@ def addLawyer( info ):
         pair = "N/A"
     else:
         pair = client
+        q = "UPDATE clients SET pair = '%s';"%(info['id'])
+        cursor.execute(q);
+        q = "DELETE FROM clients WHERE id = '%s';"%(client)
+        
     p = "INSERT INTO lawyers VALUES ( '%s', '%s', '%s', '%s', %d );"%( info['id'], pair, info['name'], info['currState'], 3 );
     cursor.execute(p)
     db.commit()
@@ -21,6 +25,7 @@ def addClient( info ):
     q = "SELECT * FROM lawyers WHERE pair = 'N/A' AND currState = '%s';"%( info['currState'] )
     result = cursor.execute(q).fetchone()
     pair = ''
+    print result
     if result is None:
         q = "SELECT * FROM lawyers WHERE pair = 'N/A';"
         result = cursor.execute( q ).fetchone()
@@ -36,6 +41,7 @@ def addClient( info ):
         pair = result[0]
         q = "UPDATE lawyers SET pair = '%s' WHERE ID = '%s';"%( info['id'], result[0] )
         cursor.execute(q)
+
         
     p = "INSERT INTO clients VALUES ( '%s', '%s', %d, '%s', '%s' );"%( info['id'], pair, info['age'], info['currState'], info['focus'] )
     cursor.execute(p)
@@ -68,8 +74,10 @@ def checkWaitList( state ):
     else:
         return result[0]
 
-def unpair( first_id, second_id ):
-    # unpairs client and lawyer
-    # removes the client from the database.
+def unpair( client_id, lawyer_id ):
+    q = "DELETE FROM clients WHERE ID = client_id"
+    cursor.execute(q)
+    q = "UPDATE lawyers WHERE ID = lawyer_id SET pair = 'N/A')
+    cursor.execute(q)
     # frees the lawyer to receive a new client ( runs checkWaitList )
     pass
