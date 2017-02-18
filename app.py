@@ -8,8 +8,6 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-START = AGE = STATE = False
-
 @app.route('/', methods=['GET'])
 def verify():
     # when the endpoint is registered as a webhook, it must echo back
@@ -23,6 +21,7 @@ def verify():
 
 # process received messages
 @app.route('/', methods=['POST'])
+START = AGE = STATE = False
 def webhook():
     # endpoint for processing incoming messaging events
 
