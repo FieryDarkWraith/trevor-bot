@@ -54,9 +54,7 @@ def webhook():
                         # save mesage_text as AGE
                         AGE = True
                         log("AGE")
-                        send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case)")
-                        send_message(sender_id, "Enter in the initials of your state (eg: NY or PA) OR enter SKIP")
-
+                        send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) \nEnter in the initials of your state (eg: NY or PA) OR enter SKIP:")
                     elif not STATE:
                         STATE = True
                         log("STATE")
@@ -97,8 +95,8 @@ def webhook():
                             pass
                         elif action == "VISA":
                             pass
-                        send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case)")
-                        send_message(sender_id, "Enter in your age OR enter SKIP")
+                        send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) \nEnter in your age OR enter SKIP:")
+                        send_message(sender_id, "Enter in your age OR enter SKIP:")
 
 
     return "ok", 200
