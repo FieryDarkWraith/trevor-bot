@@ -45,7 +45,7 @@ def webhook():
                     action = ""
                     if "postback" in messaging_event:
                         action = messaging_event["postback"]["payload"]
-                        
+
                     log("ACTION: " + action)
 
                     if action == "VOLUNTEER":
@@ -102,7 +102,7 @@ def send_start(recipient_id):
                   {
                     "type":"postback",
                     "title":"Volunteer",
-                    "payload":"LAWYER"
+                    "payload":"VOLUNTEER"
                   },
                   {
                     "type":"postback",
