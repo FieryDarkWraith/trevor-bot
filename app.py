@@ -65,7 +65,7 @@ def webhook():
 # VOLUNTEER OR CLIENT?
 def send_start(recipient_id):
 
-    log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
+    log("sending message to {recipient}: {text}".format(recipient=recipient_id))
 
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
