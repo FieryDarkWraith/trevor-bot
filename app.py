@@ -6,6 +6,8 @@ import requests
 from flask import Flask, request
 #from utils import db
 
+USER = ""
+
 START = False
 AGE = False
 STATE = False
@@ -30,6 +32,7 @@ def webhook():
     global START
     global AGE
     global STATE
+    global USER
 
     data = request.get_json()
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
@@ -46,16 +49,25 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     message_text = messaging_event["message"]["text"]  # the message's text
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
-                    if not START:
+
+                    if (message_text == "RESTART"):
+                        START = False
+                        AGE = False
+                        STATE = False
+                        
+                    elif not START:
                         send_start(sender_id) # VOLUNTEER OR CLIENT?
                         START = True
                         log("START")
+
                     elif not AGE:
-                        # save mesage_text as AGE
+                        # save message_text as AGE
                         AGE = True
                         log("AGE")
                         send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) \nEnter in the initials of your state (eg: NY or PA) OR enter SKIP:")
+
                     elif not STATE:
+                        # save message_text as STATE
                         STATE = True
                         log("STATE")
                         send_message(sender_id, "We will connect you to your volunteer legal advisor shortly.")
@@ -84,8 +96,10 @@ def webhook():
                     log("ACTION: " + action)
 
                     if action == "VOLUNTEER":
+                        USER = "VOLUNTEER"
                         send_message(sender_id, "You are a volunteer")
                     elif action == "CLIENT":
+                        USER = "CLIENT"
                         send_categories(sender_id)
                     elif action == "IMMIGRATION_LAW" or action == "CITIZENSHIP" or action == "VISA":
                         if action == "IMMIGRATION_LAW":
@@ -96,8 +110,6 @@ def webhook():
                         elif action == "VISA":
                             pass
                         send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) \nEnter in your age OR enter SKIP:")
-                        send_message(sender_id, "Enter in your age OR enter SKIP:")
-
 
     return "ok", 200
 
