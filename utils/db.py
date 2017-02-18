@@ -19,12 +19,28 @@ def addClient( info ):
 def findMatchingId( _id ):
     #finds the matching id to a given id.
     #checks through both client and lawyer tables
-    pass
+    q = "SELECT * FROM clients, lawyers WHERE clients.ID = %s OR lawyers.ID = %s"%( _id, _id )
+    result = cursor.execute( q ).fetchone()
+    if result is None:
+        return None
+    else:
+        return result[1]
 
-def checkWaitList( ):
+def checkWaitList( state ):
     #checks the waitlist table of clients.
     #returns the first client.
-    pass
+    q = "SELECT * FROM waitlist, clients WHERE clients.ID = waitlist.ID AND clients.currState = %s"%( state )
+    result = cursor.execute( q ).fetchone()
+    if result is None:
+        q = "SELECT * FROM waitlist, clients WHERE clients.ID = waitlist.ID"
+        result = cursor.execute( q ).fetchone()
+        if result is None:
+            #The waitlsit is empty
+            return None
+        else:
+            return result[0]
+    else:
+        return result[0]
 
 def unpair( first_id, second_id ):
     # unpairs client and lawyer
