@@ -20,10 +20,9 @@ def verify():
 
     return "Hello world", 200
 
-
+# process received messages
 @app.route('/', methods=['POST'])
 def webhook():
-
     # endpoint for processing incoming messaging events
 
     data = request.get_json()
@@ -33,7 +32,7 @@ def webhook():
 
         for entry in data["entry"]:
             for messaging_event in entry["messaging"]:
-
+                print messaging_event
                 if messaging_event.get("message"):  # someone sent us a message
 
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
@@ -51,6 +50,8 @@ def webhook():
                         send_message( sender_id, "Are you a lawyer or client?")
                 
                     '''
+                    # respond
+                    send_message(sender_id, "got it, thanks!")
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
@@ -79,7 +80,14 @@ def send_message(recipient_id, message_text):
             "id": recipient_id
         },
         "message": {
-            "text": message_text
+            "text": message_text,
+            "buttons":[
+                {
+                "type":"web_url",
+                "url":"https://petersapparel.parseapp.com",
+                "title":"Show Website"
+                }
+            ]
         }
     })
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
