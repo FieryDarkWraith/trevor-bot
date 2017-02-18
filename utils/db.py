@@ -1,6 +1,6 @@
 import sqlite3
 
-dbFile = "data/trev.db"
+dbFile = "../data/trev.db"
 db = sqlite3.connect(dbFile)
 cursor = db.cursor()
 
@@ -14,11 +14,11 @@ def addLawyer( info ):
         pair = client
     p = "INSERT INTO lawyers VALUES ( '%s', '%s', '%s', '%s', %d );"%( info['id'], pair, info['name'], info['currState'], 3 );
     cursor.execute(p)
-    pass
+    db.commit()
 
 #@param info == dictionary with necessary information
 def addClient( info ):
-    q = "SELECT * FROM lawyers WHERE pair = 'N/A' AND currState = %s;"%( info['currState'] )
+    q = "SELECT * FROM lawyers WHERE pair = 'N/A' AND currState = '%s';"%( info['currState'] )
     result = cursor.execute(q).fetchone()
     pair = ''
     if result is None:
@@ -29,12 +29,17 @@ def addClient( info ):
             cursor.execute(q)
             pair = "N/A"
         else:
-            pair = result[1]
+            pair = result[0]
+            q = "UPDATE lawyers SET pair = '%s' WHERE ID = '%s';"%( info['id'], result[0] )
+            cursor.execute(q)
     else:
-        pair = result[1]
+        pair = result[0]
+        q = "UPDATE lawyers SET pair = '%s' WHERE ID = '%s';"%( info['id'], result[0] )
+        cursor.execute(q)
+        
     p = "INSERT INTO clients VALUES ( '%s', '%s', %d, '%s', '%s' );"%( info['id'], pair, info['age'], info['currState'], info['focus'] )
     cursor.execute(p)
-    
+    db.commit()
 
 #@param info 
 def findMatchingId( _id ):
@@ -50,7 +55,7 @@ def findMatchingId( _id ):
 def checkWaitList( state ):
     #checks the waitlist table of clients.
     #returns the first client.
-    q = "SELECT * FROM waitlist, clients WHERE clients.ID = waitlist.ID AND clients.currState = %s"%( state )
+    q = "SELECT * FROM waitlist, clients WHERE clients.ID = waitlist.ID AND clients.currState = '%s';"%( state )
     result = cursor.execute( q ).fetchone()
     if result is None:
         q = "SELECT * FROM waitlist, clients WHERE clients.ID = waitlist.ID"
