@@ -6,8 +6,11 @@ import requests
 from flask import Flask, request
 #from utils import db
 
+global START
 START = False
+global AGE
 AGE = False
+global STATE
 STATE = False
 
 app = Flask(__name__)
