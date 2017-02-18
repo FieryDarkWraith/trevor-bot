@@ -4,7 +4,7 @@ import json
 
 import requests
 from flask import Flask, request
-from utils import db
+#from utils import db
 
 app = Flask(__name__)
 
