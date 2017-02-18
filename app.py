@@ -70,15 +70,13 @@ def webhook():
                     if action == "VOLUNTEER":
                         send_message(sender_id, "You are a volunteer")
                     elif action == "CLIENT":
-                        send_message(sender_id, "You are a client")
+                        send_categories(sender_id, "You are a client")
 
     return "ok", 200
 
-# VOLUNTEER OR CLIENT?
+# BOTH: VOLUNTEER OR CLIENT?
 def send_start(recipient_id):
-
     #log("sending message to {recipient}: {text}".format(recipient=recipient_id), text="Hello, I'm Trevor. Would you like to volunteer your legal services or ask a legal question?")
-
     params = {
         "access_token": os.environ["PAGE_ACCESS_TOKEN"]
     }
@@ -118,7 +116,59 @@ def send_start(recipient_id):
         log(r.status_code)
         log(r.text)
 
-# message
+# CLIENT: 4 CATEGORIES
+def send_categories(recipient_id):
+    #log("sending message to {recipient}: {text}".format(recipient=recipient_id), text="Hello, I'm Trevor. Would you like to volunteer your legal services or ask a legal question?")
+    params = {
+        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+    data = json.dumps({
+        "recipient": {
+            "id": recipient_id
+        },
+         "message":{
+            "attachment":{
+              "type":"template",
+              "payload":{
+                "template_type":"button",
+                "text":"Choose a category that best suits your question?:",
+                "buttons":[
+                  {
+                    "type":"postback",
+                    "title":"Immigration Law",
+                    "payload":"IMMIGRATION_LAW"
+                  },
+                  {
+                    "type":"postback",
+                    "title":"Citizenship",
+                    "payload":"CITIZENSHIP"
+                  },
+                  {
+                    "type":"postback",
+                    "title":"VISA",
+                    "payload":"VISA"
+                  },
+                  {
+                    "type":"postback",
+                    "title":"Deportation",
+                    "payload":"DEPORTATION"
+                  }
+                ]
+              }
+            }
+        }
+    })
+    log(data)
+    print data
+    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
+    if r.status_code != 200:
+        log(r.status_code)
+        log(r.text)
+
+# GENERAL: message
 def send_message(recipient_id, message_text):
 
     log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
