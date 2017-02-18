@@ -6,6 +6,10 @@ import requests
 from flask import Flask, request
 #from utils import db
 
+START = False
+AGE = False
+STATE = False
+
 app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
@@ -21,7 +25,6 @@ def verify():
 
 # process received messages
 @app.route('/', methods=['POST'])
-START = AGE = STATE = False
 def webhook():
     # endpoint for processing incoming messaging events
 
