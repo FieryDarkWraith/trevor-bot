@@ -6,9 +6,9 @@ import requests
 from flask import Flask, request
 #from utils import db
 
-START = True
-AGE = True
-STATE = True
+START = False
+AGE = False
+STATE = False
 
 app = Flask(__name__)
 
