@@ -82,17 +82,17 @@ def send_message(recipient_id, message_text):
               "type":"template",
               "payload":{
                 "template_type":"button",
-                "text":"What do you want to do next?",
+                "text":"Hello, I'm Trevor.",
                 "buttons":[
                   {
-                    "type":"web_url",
-                    "url":"https://petersapparel.parseapp.com",
-                    "title":"Show Website"
+                    "type":"postback",
+                    "title":"Volunteer as Lawyer",
+                    "payload":"LAWYER"
                   },
                   {
                     "type":"postback",
-                    "title":"Start Chatting",
-                    "payload":"USER_DEFINED_PAYLOAD"
+                    "title":"Ask Lawyer for Legal Help",
+                    "payload":"ASKER"
                   }
                 ]
               }
