@@ -32,14 +32,19 @@ def webhook():
 
         for entry in data["entry"]:
             for messaging_event in entry["messaging"]:
-                log("MSG_EVENT:" + messaging_event)
+
+                log("MSG_EVENT:")
+                log(messaging_event)
+
                 if messaging_event.get("message"):  # someone sent us a message
 
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     message_text = messaging_event["message"]["text"]  # the message's text
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     action = ""
-                    if ["postback"]:
+
+                    if messaging_event["postback"]:
+
                         action = messaging_event["postback"]["payload"]
 
                     if (action == "VOLUNTEER"):
