@@ -68,8 +68,10 @@ def checkWaitList( state ):
     else:
         return result[0]
 
-def unpair( first_id, second_id ):
-    # unpairs client and lawyer
-    # removes the client from the database.
+def unpair( client_id, lawyer_id ):
+    q = "DELETE FROM clients WHERE ID = client_id"
+    cursor.execute(q)
+    q = "UPDATE lawyers WHERE ID = lawyer_id SET pair = 'N/A')
+    cursor.execute(q)
     # frees the lawyer to receive a new client ( runs checkWaitList )
     pass
