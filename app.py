@@ -40,7 +40,7 @@ def webhook():
                     message_text = messaging_event["message"]["text"]  # the message's text
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     action = ""
-                    if ["postback"]:
+                    if messaging_event["postback"]:
                         action = messaging_event["postback"]["payload"]
 
                     if (action == "VOLUNTEER"):
