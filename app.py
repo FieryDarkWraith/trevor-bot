@@ -37,12 +37,21 @@ def webhook():
                 log(messaging_event)
 
                 if messaging_event.get("message"):  # someone sent us a message
-
+                    START = AGE = STATE = False
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     message_text = messaging_event["message"]["text"]  # the message's text
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
-
-                    send_start(sender_id) # VOLUNTEER OR CLIENT?
+                    if not START:
+                        send_start(sender_id) # VOLUNTEER OR CLIENT?
+                        START = True
+                        log("START")
+                    elif not AGE:
+                        # save mesage_text as AGE
+                        AGE = True
+                        log("AGE")
+                    elif not STATE:
+                        STATE = True
+                        log("STATE")
 
                     '''
 
@@ -71,13 +80,15 @@ def webhook():
                         send_message(sender_id, "You are a volunteer")
                     elif action == "CLIENT":
                         send_categories(sender_id)
-                    elif action == "IMMIGRATION_LAW":
-                        pass
-                        # save immigration law as category
-                    elif action == "CITIZENSHIP":
-                        pass
-                    elif action == "VISA":
-                        pass
+                    elif action == "IMMIGRATION_LAW" or action == "CITIZENSHIP" or action == "VISA":
+                        if action == "IMMIGRATION_LAW":
+                            pass
+                            # save immigration law as category
+                        elif action == "CITIZENSHIP":
+                            pass
+                        elif action == "VISA":
+                            pass
+
     return "ok", 200
 
 # BOTH: VOLUNTEER OR CLIENT?
