@@ -6,6 +6,8 @@ import requests
 from flask import Flask, request
 #from utils import db
 
+USER = ""
+
 START = False
 AGE = False
 STATE = False
@@ -30,6 +32,7 @@ def webhook():
     global START
     global AGE
     global STATE
+    global USER
 
     data = request.get_json()
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
@@ -84,8 +87,10 @@ def webhook():
                     log("ACTION: " + action)
 
                     if action == "VOLUNTEER":
+                        USER = "VOLUNTEER"
                         send_message(sender_id, "You are a volunteer")
                     elif action == "CLIENT":
+                        USER = "CLIENT"
                         send_categories(sender_id)
                     elif action == "IMMIGRATION_LAW" or action == "CITIZENSHIP" or action == "VISA":
                         if action == "IMMIGRATION_LAW":
@@ -96,8 +101,6 @@ def webhook():
                         elif action == "VISA":
                             pass
                         send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) \nEnter in your age OR enter SKIP:")
-                        send_message(sender_id, "Enter in your age OR enter SKIP:")
-
 
     return "ok", 200
 
