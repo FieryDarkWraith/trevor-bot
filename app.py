@@ -82,11 +82,12 @@ def send_message(recipient_id, message_text):
         "message": {
             "text": message_text,
             "buttons":[
-                {
+              {
                 "type":"web_url",
-                "url":"https://petersapparel.parseapp.com",
-                "title":"Show Website"
-                }
+                "url":"https://petersfancyapparel.com/classic_white_tshirt",
+                "title":"View Item",
+                "webview_height_ratio": "compact"
+              }
             ]
         }
     })
