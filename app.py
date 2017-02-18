@@ -26,7 +26,7 @@ def webhook():
     # endpoint for processing incoming messaging events
 
     data = request.get_json()
-    #log(data)  # you may not want to log every incoming message in production, but it's good for testing
+    log(data)  # you may not want to log every incoming message in production, but it's good for testing
 
     if data["object"] == "page":
 
@@ -42,18 +42,7 @@ def webhook():
                     message_text = messaging_event["message"]["text"]  # the message's text
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
 
-                    action = ""
-                    if "postback" in messaging_event:
-                        action = messaging_event["postback"]["payload"]
-
-                    log("ACTION: " + action)
-
-                    if action == "VOLUNTEER":
-                        send_message(sender_id, "You are a volunteer")
-                    elif action == "CLIENT":
-                        send_message(sender_id, "You are a client")
-                    else:
-                        send_start(sender_id) # VOLUNTEER OR CLIENT?
+                    send_start(sender_id) # VOLUNTEER OR CLIENT?
 
                     '''
 
@@ -73,7 +62,15 @@ def webhook():
                     pass
 
                 if messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
-                    pass
+                    sender_id = messaging_event["sender"]["id"]
+
+                    action = messaging_event["postback"]["payload"]
+                    log("ACTION: " + action)
+
+                    if action == "VOLUNTEER":
+                        send_message(sender_id, "You are a volunteer")
+                    elif action == "CLIENT":
+                        send_message(sender_id, "You are a client")
 
     return "ok", 200
 
