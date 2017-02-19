@@ -24,7 +24,9 @@ def clear():
     cursor.execute(q)
     q = "DELETE FROM questions;"
     cursor.execute(q)
-    
+
+
+
 #@param info == dictionary with necessary information
 def addLawyer( info ):
     client = checkWaitList( info['currState'] )
@@ -166,3 +168,13 @@ def questionUser( _id ):
         return "NONE"
     else:
         return result[1]
+
+def removeId( _id ):
+    q = "DELETE FROM clients WHERE ID = '%s';"%( _id )
+    cursor.execute(q)
+    q = "DELETE FROM lawyers WHERE ID = '%s';"%( _id )
+    cursor.execute(q)
+    q = "DELETE FROM waitlist WHERE ID = '%s';"%( _id )
+    cursor.execute(q)
+    q = "DELETE FROM questions WHERE ID = '%s';"%( _id )
+    cursor.execute(q)

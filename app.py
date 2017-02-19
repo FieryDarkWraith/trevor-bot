@@ -23,6 +23,7 @@ def verify():
 # process received messages
 @app.route('/', methods=['POST'])
 def webhook():
+    db.clear()
     db.create()
     #log( db.showAll())
 
@@ -49,6 +50,7 @@ def webhook():
                     if (message_text == "RESET" or message_text == "START"):
                         USER = ""
                         QUESTION = ""
+                        db.removeId( sender_id )
                         send_start(sender_id) # VOLUNTEER OR CLIENT?
 
                     USER = db.identifyUser( sender_id )
