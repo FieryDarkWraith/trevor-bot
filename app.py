@@ -49,11 +49,7 @@ def webhook():
                     message_text = messaging_event["message"]["text"]  # the message's text
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
 
-                    if (message_text == "RESET" or message_text == "START" or message_text == "TREVOR STOP"):
-                        if message_text == "TREVOR STOP":
-                            send_message(pair_id, "Your client has ended the conversation. Thank you for your help.")
-                            send_message(sender_id, "You have ended the conversation. Thank you for using Trevor.")
-                            send_rating(sender_id)
+                    if (message_text == "RESET" or message_text == "START" or message_text == "STOP"):
                         USER = ""
                         QUESTION = ""
                         db.removeId( sender_id )
@@ -87,14 +83,17 @@ def webhook():
                                 pair_id = db.findMatchingId( sender_id )
                             if pair_id != None and db.questionUser( pair_id ) == "DONE" :
                                 log( pair_id )
-                                send_message( sender_id, "You have been connected to a legal advisor. \n\nThis is the information he or she has provided:\nName: %s \nState: %s\n Below is his or her answer."%( db.getLawyerName( pair_id ), db.getLawyerState( pair_id ) ) )
-                                send_message( pair_id, "You have been connected to a client. \n\nThis is the information your client has provided:\nAge: %d \nState: %s \nBelow is his or her inquiry"%( db.getClientAge( sender_id ), db.getClientState( sender_id ) ))
+                                send_message( sender_id, "Legal adivisor and client connection established. \n\nThis is the information he or she has provided:\nName: %s \nState: %s\n Below is his or her answer."%( db.getLawyerName( pair_id ), db.getLawyerState( pair_id ) ) )
 
                         elif QUESTION == "DONE":
                             #send_message( sender_id, "handshake betch")
                             pair_id = db.findMatchingId( sender_id )
                             send_message( pair_id, message_text )
 
+                        elif message_text == "STOP":
+                            send_message(pair_id, "The conversation has been ended. Thank you for your help.")
+                            send_message(sender_id, "The conversation has been ended. Thank you for using Trevor.")
+                            send_rating(sender_id)
                             # save message_text as STATE
 
                     elif USER == "VOLUNTEER":
@@ -125,7 +124,7 @@ def webhook():
                         elif QUESTION == "DONE":
                             #send_message( sender_id, "second handshake betch")
                             pair_id = db.findMatchingId( sender_id )
-                            send_message( pair_id, message_text + "\n _______________\nEnter 'TREVOR STOP' to end the conversation.")
+                            send_message( pair_id, message_text )
 
 
 
