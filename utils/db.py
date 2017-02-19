@@ -127,7 +127,10 @@ def findMatchingId( _id ):
         result = cursor.execute( q ).fetchone()
         if result is None:
             return None
-    return result[1]
+    if result[1] == 'N/A':
+        return None
+    else:
+        return result[1]
 
 def checkWaitList( state ):
     #checks the waitlist table of clients.
