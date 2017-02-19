@@ -5,7 +5,13 @@ db = sqlite3.connect(dbFile)
 cursor = db.cursor()
 
 def create():
-    q = "CREATE TABLE IF NOT EXISTS clients ( ID TEXT, pair TEXT, age INTEGER, currState TEXT, focus TEXT); CREATE TABLE IF NOT EXISTS lawyers ( ID TEXT, pair TEXT, name TEXT, currState TEXT, rating INTEGER); CREATE TABLE IF NOT EXISTS waitlist ( ID TEXT ); CREATE TABLE IF NOT EXISTS questions ( ID TEXT, QUESTION TEXT);"
+    q = "CREATE TABLE IF NOT EXISTS clients ( ID TEXT, pair TEXT, age INTEGER, currState TEXT, focus TEXT);"
+    cursor.execute(q)
+    q = "CREATE TABLE IF NOT EXISTS lawyers ( ID TEXT, pair TEXT, name TEXT, currState TEXT, rating INTEGER);"
+    cursor.execute(q)
+    q = "CREATE TABLE IF NOT EXISTS waitlist ( ID TEXT );"
+    cursor.execute(q)
+    q = "CREATE TABLE IF NOT EXISTS questions ( ID TEXT, QUESTION TEXT);"
     cursor.execute(q)
     db.commit()
 #@param info == dictionary with necessary information
