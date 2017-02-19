@@ -233,7 +233,7 @@ def send_message(recipient_id, message_text):
         },
         "message": {
             "text": message_text,
-            "is_echo": true,
+            "is_echo": True,
             "metadata": "DEVELOPER_DEFINED_METADATA_STRING"
         }
     })
