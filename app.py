@@ -98,7 +98,7 @@ def webhook():
                                 pair_id = db.findMatchingId( sender_id )
                             if pair_id != None and db.questionUser( pair_id ) == "DONE" :
                                 log( pair_id )
-                                send_message( sender_id, "Legal adivisor and client connection established. \n\nThis is the information he or she has provided:\nName: %s \nState: %s\n Below is his or her answer."%( db.getLawyerName( pair_id ), db.getLawyerState( pair_id ) ) )
+                                send_message( pair_id, "Legal adivisor and client connection established. \n\nThis is the information he or she has provided:\nName: %s \nState: %s\n Below is his or her answer."%( db.getLawyerName( pair_id ), db.getLawyerState( pair_id ) ) )
 
                         elif QUESTION == "DONE":
                             #send_message( sender_id, "handshake betch")
