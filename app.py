@@ -80,7 +80,7 @@ def webhook():
                                 pair_id = db.findMatchingId( sender_id )
                             if pair_id != None and db.questionUser( pair_id ) == "DONE" :
                                 log( pair_id )
-                                send_message( pair_id, "You have been connected to a client. " + getClientAge(sender_id) )
+                                send_message( pair_id, "You have been connected to a client. " ) # + getClientAge(sender_id)
                                 send_message( sender_id, "You have been connected to a lawyer. <info abt lawyer :) >" )
 
 
