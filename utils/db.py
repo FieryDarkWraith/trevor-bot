@@ -23,7 +23,6 @@ def addLawyer( info ):
 
 #@param info == dictionary with necessary information
 def addClient( info ):
-    print info
     q = "SELECT * FROM lawyers WHERE pair = 'N/A' AND currState = '%s';"%( info['currState'] )
     result = cursor.execute(q).fetchone()
     pair = ''
@@ -32,7 +31,7 @@ def addClient( info ):
         q = "SELECT * FROM lawyers WHERE pair = 'N/A';"
         result = cursor.execute( q ).fetchone()
         if result is None:
-            q = "INSERT INTO waitlist VALUES ( '%s' );"%( info['id'])
+            q = "INSERT INTO waitlist VALUES ( '%s' );"%( info['id'] )
             cursor.execute(q)
             pair = "N/A"
         else:
@@ -46,6 +45,7 @@ def addClient( info ):
 
 
     p = "INSERT INTO clients VALUES ( '%s', '%s', %d, '%s', '%s' );"%( info['id'], pair, info['age'], info['currState'], info['focus'] )
+    print "here"
     cursor.execute(p)
     db.commit()
 
