@@ -197,7 +197,7 @@ def getLawyerName( _id ):
     result = cursor.execute(q).fetchone()
     return result[2]
 
-def getLawyerName( _id ):
+def getLawyerState( _id ):
     q = "SELECT * FROM lawyers WHERE ID = '%s';"%( _id )
     result = cursor.execute(q).fetchone()
     return result[3]

@@ -112,8 +112,8 @@ def webhook():
                                 pair_id = db.findMatchingId( sender_id )
                             if pair_id != None and db.questionUser( pair_id ) == "DONE" :
                                 log( pair_id )
-                                send_message( pair_id, "You have been connected to a legal advisor.\n\nThis is the information he or she has provided:\nName: " + str(db.getLawyerName( sender_id )) + "\nState: " + str(db.getLawyerState( sender_id ))+"\nBelow is his or her answer.")
-                                send_message( sender_id, "You have been connected to a client.\n\nThis is the information your client has provided:\nAge: "+ str(db.getClientAge( pair_id )) + "\nState: " + str(db.getClientState( pair_id ))+"\nBelow is their inquiry.")
+                                send_message( pair_id, "You have been connected to a legal advisor. \n\nThis is the information he or she has provided:\nName: %s \nState: %s\n Below is his or her answer."%s( db.getLawyerName( sender_id ), db.getLawyerState( sender_id ) ) )
+                                send_message( sender_id, "You have been connected to a client. \n\nThis is the information your client has provided:\nAge: %d \nState: %s \nBelow is his or her inquiry"%( db.getClientAge( pair_id ), db.getClientState( pair_id ) ))
 
                         elif QUESTION == "DONE":
                             #send_message( sender_id, "second handshake betch")
