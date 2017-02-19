@@ -29,6 +29,8 @@ def addLawyer( info ):
 
     p = "INSERT INTO lawyers VALUES ( '%s', '%s', '%s', '%s', %d );"%( info['id'], pair, info['name'], info['currState'], 3 );
     cursor.execute(p)
+    p = "INSERT INTO questions VALUES ( '%s', '%s' );"%( info['id'], "NAME")
+    cursor.execute(p)
     db.commit()
 
 #@param info == dictionary with necessary information
@@ -77,7 +79,18 @@ def updateClientQuestion( _id, question ):
     q = "UPDATE questions SET QUESTION = '%s' WHERE ID = '%s';"%(question, _id )
     cursor.execute(q)
     db.commit()
-
+def updateLawyerName( _id, name ):
+    q = "UPDATE lawyers SET name = '%s' WHERE ID = '%s';"%(name, _id )
+    cursor.execute(q)
+    db.commit()
+def updateLawyerState( _id, state ):
+    q = "UPDATE lawyers SET currState = '%s' WHERE ID = '%s'"%(state, _id )
+    cursor.execute(q)
+    db.commit()
+def updateLawyerQuestion( _id, question ):
+    q = "UPDATE questions SET QUESTION = '%s' WHERE ID = '%s';"%(question, _id )
+    cursor.execute(q)
+    db.commit()
 def showAll():
     q = "SELECT * FROM clients; SELECT * FROM lawyers; SELECT * FROM waitlist;"
     print cursor.execute(q).fetchall()

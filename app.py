@@ -24,6 +24,7 @@ def verify():
 @app.route('/', methods=['POST'])
 def webhook():
     db.create()
+    log( db.showAll())
 
     USER = ""
     QUESTION = ""
@@ -77,7 +78,26 @@ def webhook():
                             # save message_text as STATE
 
                     elif USER == "VOLUNTEER":
-                        pass
+
+                        if QUESTION == "NAME":
+                            send_message(sender_id, "received " + message_text)
+                            if message_text != "SKIP":
+                                db.updateLawyerName(sender_id, message_text  )
+                            db.updateLawyerQuestion(sender_id, "STATE")
+                            send_message(sender_id, "(Enter in your state (eg. NY) or enter SKIP:")                        #send_message("Enter in the initials of your state (eg: NY or PA) OR enter SKIP:")
+                            # save message_text as STATE
+                            QUESTION = "STATE"
+
+                        elif QUESTION == "STATE":
+                            send_message(sender_id, "received " + message_text)
+                            if message_text != "SKIP":
+                                db.updateLawyerState( sender_id, message_text)
+                            db.updateLawyerQuestion(sender_id, "DONE")
+                            send_message(sender_id, "You will be contacted by a client shortly.")
+
+
+
+
                     else:
                         log("----------- MESSAGE NOT CAUGHT -----------")
 
@@ -107,6 +127,13 @@ def webhook():
                     if action == "VOLUNTEER":
                         USER = "VOLUNTEER"
                         send_message(sender_id, "You are a volunteer")
+                        tempDict = { }
+                        tempDict['id'] = sender_id
+                        tempDict['name'] = 'N/A'
+                        tempDict['currState'] = 'N/A'
+                        db.addLawyer( tempDict )
+                        db.updateLawyerQuestion( sender_id, "NAME" )
+                        send_message( sender_id, "Enter in your name:")
                     elif action == "CLIENT":
                         USER = "CLIENT"
                         send_message(sender_id, "You are a client")
