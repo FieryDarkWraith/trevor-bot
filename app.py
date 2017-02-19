@@ -32,7 +32,10 @@ def webhook():
     # endpoint for processing incoming messaging events
     data = request.get_json()
     #log(data)  # you may not want to log every incoming message in production, but it's good for testing
-
+    if 'USER' in request.args:
+        USER = request.args.get('USER')
+    if 'QUESTION' in request.args('QUESTION'):
+        QUESTION = request.args.get('QUESTION')
     if data["object"] == "page":
 
         for entry in data["entry"]:
@@ -146,7 +149,7 @@ def send_start(recipient_id):
     })
     #log("<-------DATA")
     log(data)
-    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
+    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data )
     if r.status_code != 200:
         log(r.status_code)
         log(r.text)
@@ -200,7 +203,7 @@ def send_categories(recipient_id):
 
 # GENERAL: message
 def send_message(recipient_id, message_text):
-
+    
     log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
 
     params = {
@@ -217,7 +220,7 @@ def send_message(recipient_id, message_text):
             "text": message_text
         }
     })
-    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
+    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data, USER = USER, QUESTION = QUESTION)
     if r.status_code != 200:
         log(r.status_code)
         log(r.text)
