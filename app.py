@@ -35,14 +35,14 @@ def webhook():
     global USER
 
     data = request.get_json()
-    log(data)  # you may not want to log every incoming message in production, but it's good for testing
+    #log(data)  # you may not want to log every incoming message in production, but it's good for testing
 
     if data["object"] == "page":
 
         for entry in data["entry"]:
             for messaging_event in entry["messaging"]:
 
-                log("MSG_EVENT:")
+                log("---------- INCOMING MESSAGE: -----------")
                 log(messaging_event)
 
                 if messaging_event.get("message"):  # someone sent us a message
@@ -50,27 +50,30 @@ def webhook():
                     message_text = messaging_event["message"]["text"]  # the message's text
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
 
-                    if (message_text == "RESTART"):
+                    if (message_text == "RESET"):
                         START = False
                         AGE = False
                         STATE = False
-                        
+
                     elif not START:
                         send_start(sender_id) # VOLUNTEER OR CLIENT?
                         START = True
-                        log("START")
+                        log("START " + str(START))
 
                     elif not AGE:
+                        send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) \nEnter in the initials of your state (eg: NY or PA) OR enter SKIP:")
                         # save message_text as AGE
                         AGE = True
-                        log("AGE")
-                        send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) \nEnter in the initials of your state (eg: NY or PA) OR enter SKIP:")
+                        log("AGE " + str(AGE))
 
                     elif not STATE:
                         # save message_text as STATE
                         STATE = True
-                        log("STATE")
+                        log("STATE " + str(STATE))
                         send_message(sender_id, "We will connect you to your volunteer legal advisor shortly.")
+
+                    else:
+                        log("----------- MESSAGE NOT CAUGHT -----------")
 
                     '''
 
@@ -93,7 +96,7 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]
 
                     action = messaging_event["postback"]["payload"]
-                    log("ACTION: " + action)
+                    log("------- BUTTON PRESSED: " + action)
 
                     if action == "VOLUNTEER":
                         USER = "VOLUNTEER"
@@ -148,7 +151,8 @@ def send_start(recipient_id):
             }
         }
     })
-    log(data)
+    #log("<-------DATA")
+    #log(data)
     print data
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
     if r.status_code != 200:
@@ -195,7 +199,8 @@ def send_categories(recipient_id):
             }
         }
     })
-    log(data)
+    #log("<-------DATA")
+    #log(data)
     print data
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
     if r.status_code != 200:
