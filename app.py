@@ -80,7 +80,7 @@ def webhook():
                             #send_message( sender_id, "handshake betch")
                             pair_id = db.findMatchingId( sender_id )
                             if pair_id is not None:
-                                send_message( pair_id)
+                                send_message( pair_id, "You have been connected to a client. <info abt client :) >" )
                             send_message( pair_id, message_text )
 
                             # save message_text as STATE
