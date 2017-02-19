@@ -1,6 +1,6 @@
 import sqlite3
 
-dbFile = "../data/trev.db"
+dbFile = "data/trev.db"
 db = sqlite3.connect(dbFile)
 cursor = db.cursor()
 
