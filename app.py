@@ -62,6 +62,7 @@ def webhook():
                             send_message(sender_id, "received " + message_text)
                             if message_text != "SKIP":
                                 db.updateClientAge(sender_id, int( message_text ) )
+                            db.updateClientQuestion(sender_id, "STATE")
                             send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) \nEnter in your state (eg. NY) or enter SKIP:")                        #send_message("Enter in the initials of your state (eg: NY or PA) OR enter SKIP:")
                             # save message_text as STATE
                             QUESTION = "STATE"
@@ -70,7 +71,7 @@ def webhook():
                             send_message(sender_id, "received " + message_text)
                             if message_text != "SKIP":
                                 db.updateClientState( sender_id, message_text)
-                            QUESTION = ""
+                            db.updateClientQuestion(sender_id, "DONE")
                             send_message(sender_id, "We will connect you to your volunteer legal advisor shortly.")
 
                             # save message_text as STATE
