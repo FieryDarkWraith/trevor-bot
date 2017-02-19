@@ -192,6 +192,11 @@ def getClientState( _id ):
     result = cursor.execute(q).fetchone()
     return result[3]
 
+def getClientTopic( _id ):
+    q = "SELECT * FROM clients WHERE ID = '%s';"%( _id )
+    result = cursor.execute(q).fetchone()
+    return result[4]
+
 def getLawyerName( _id ):
     q = "SELECT * FROM lawyers WHERE ID = '%s';"%( _id )
     result = cursor.execute(q).fetchone()

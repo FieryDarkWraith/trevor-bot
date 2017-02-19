@@ -98,7 +98,9 @@ def webhook():
                                 pair_id = db.findMatchingId( sender_id )
                             if pair_id != None and db.questionUser( pair_id ) == "DONE" :
                                 log( pair_id )
-                                send_message( pair_id, "Legal adivisor and client connection established. \n\nThis is the information he or she has provided:\nName: %s \nState: %s\n Below is his or her answer."%( db.getLawyerName( pair_id ), db.getLawyerState( pair_id ) ) )
+                                #send_message( pair_id, "Legal adivisor and client connection established. \n\nThis is the information he or she has provided:\nName: %s \nState: %s\n Below is his or her answer."%( db.getLawyerName( pair_id ), db.getLawyerState( pair_id ) ) )
+                                send_message( sender_id, "You have been connected to a legal advisor. \n\nThis is the information he or she has provided:\nName: %s \nState: %s\n Below is his or her answer."%( db.getLawyerName( pair_id ), db.getLawyerState( pair_id ) ) )
+                                send_message( pair_id, "You have been connected to a client. \n\nThis is the information your client has provided:\nAge: %d \nState: %s \nTopic: %s \nBelow is his or her inquiry"%( db.getClientAge( sender_id ), db.getClientState( sender_id ), db.getClientTopic(server_id) ))
 
                         elif QUESTION == "DONE":
                             #send_message( sender_id, "handshake betch")
@@ -129,7 +131,7 @@ def webhook():
                             if pair_id != None and db.questionUser( pair_id ) == "DONE" :
                                 log( pair_id )
                                 send_message( pair_id, "You have been connected to a legal advisor. \n\nThis is the information he or she has provided:\nName: %s \nState: %s\n Below is his or her answer."%( db.getLawyerName( sender_id ), db.getLawyerState( sender_id ) ) )
-                                send_message( sender_id, "You have been connected to a client. \n\nThis is the information your client has provided:\nAge: %d \nState: %s \nBelow is his or her inquiry"%( db.getClientAge( pair_id ), db.getClientState( pair_id ) ))
+                                send_message( sender_id, "You have been connected to a client. \n\nThis is the information your client has provided:\nAge: %d \nState: %s \nTopic: %s \nBelow is his or her inquiry"%( db.getClientAge( pair_id ), db.getClientState( pair_id ), db.getClientTopic(pair_id) ))
 
                         elif QUESTION == "DONE":
                             #send_message( sender_id, "second handshake betch")
@@ -166,7 +168,7 @@ def webhook():
 
                     if action == "VOLUNTEER":
                         USER = "VOLUNTEER"
-                        send_message(sender_id, "You are a volunteer")
+                        #send_message(sender_id, "You are a volunteer")
                         tempDict = { }
                         tempDict['id'] = sender_id
                         tempDict['name'] = 'N/A'
@@ -176,7 +178,7 @@ def webhook():
                         send_message( sender_id, "Enter in your name:")
                     elif action == "CLIENT":
                         USER = "CLIENT"
-                        send_message(sender_id, "You are a client")
+                        #send_message(sender_id, "You are a client")
                         tempDict = { }
                         tempDict['id'] = sender_id
                         tempDict['focus'] = 'N/A'
