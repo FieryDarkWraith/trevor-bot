@@ -122,7 +122,7 @@ def webhook():
                                 log( pair_id )
                                 #send_message( pair_id, "Legal adivisor and client connection established. \n\nThis is the information he or she has provided:\nName: %s \nState: %s\n Below is his or her answer."%( db.getLawyerName( pair_id ), db.getLawyerState( pair_id ) ) )
                                 send_message( sender_id, "You have been connected to a legal advisor. \n\nThis is the information he or she has provided:\nName: %s \nState: %s\n Below is his or her answer."%( db.getLawyerName( pair_id ), db.getLawyerState( pair_id ) ) )
-                                send_message( pair_id, "You have been connected to a client. \n\nThis is the information your client has provided:\nAge: %d \nState: %s \nTopic: %s \nBelow is his or her inquiry"%( db.getClientAge( sender_id ), db.getClientState( sender_id ), db.getClientTopic(server_id) ))
+                                send_message( pair_id, "You have been connected to a client. \n\nThis is the information your client has provided:\nAge: %d \nState: %s \nTopic: %s \nBelow is his or her inquiry"%( db.getClientAge( sender_id ), db.getClientState( sender_id ), db.getClientTopic(sender_id) ))
 
                         elif QUESTION == "DONE":
                             #send_message( sender_id, "handshake betch")
