@@ -80,7 +80,7 @@ def updateClientQuestion( _id, question ):
 
 def showAll():
     q = "SELECT * FROM clients; SELECT * FROM lawyers; SELECT * FROM waitlist;"
-    return cursor.execute(q).fetchall()
+    print cursor.execute(q).fetchall()
 
 #@param info
 def findMatchingId( _id ):
