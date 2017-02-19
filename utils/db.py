@@ -75,9 +75,16 @@ def checkWaitList( state ):
         return result[0]
 
 def unpair( client_id, lawyer_id ):
-    q = "DELETE FROM clients WHERE ID = client_id"
+    q = "DELETE FROM clients WHERE ID = '%s' ;"%(client_id)
     cursor.execute(q)
-    q = "UPDATE lawyers WHERE ID = lawyer_id SET pair = 'N/A')
+    client = checkWaitList( info['currState'] )
+    pair = ''
+    if client is None:
+        pair = "N/A"
+    else:
+        pair = client
+        q = "UPDATE clients SET pair = '%s';"%(info['id'])
+        cursor.execute(q);
+    q = "UPDATE lawyers WHERE ID = '%s' SET pair = '%s';"%(lawyer_id, pair)
     cursor.execute(q)
-    # frees the lawyer to receive a new client ( runs checkWaitList )
-    pass
+    db.commit()
