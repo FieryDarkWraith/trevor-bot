@@ -31,6 +31,7 @@ def webhook():
     global START
     global AGE
     global STATE
+    global USER
     # endpoint for processing incoming messaging events
     data = request.get_json()
     #log(data)  # you may not want to log every incoming message in production, but it's good for testing
@@ -111,10 +112,10 @@ def webhook():
                     log("------- BUTTON PRESSED: " + action)
 
                     if action == "VOLUNTEER":
-                        #USER = "VOLUNTEER"
+                        USER = "VOLUNTEER"
                         send_message(sender_id, "You are a volunteer")
                     elif action == "CLIENT":
-                        #USER = "CLIENT"
+                        USER = "CLIENT"
                         send_categories(sender_id)
                     elif action == "IMMIGRATION_LAW" or action == "CITIZENSHIP" or action == "VISA":
                         if action == "IMMIGRATION_LAW":
