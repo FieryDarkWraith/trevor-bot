@@ -183,8 +183,8 @@ def removeId( _id ):
     cursor.execute(q)
 
 def getClientAge( _id ):
-    q = "SELECT age FROM clients WHERE ID = '%s';"%( _id )
-    return cursor.execute(q).fetchone()[0]
+    q = "SELECT * FROM clients WHERE ID = '%s';"%( _id )
+    return cursor.execute(q).fetchone()[2]
 
 def getClientState( _id ):
     q = "SELECT currState FROM clients WHERE ID = '%s';"%( _id )
