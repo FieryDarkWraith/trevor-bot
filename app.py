@@ -58,23 +58,24 @@ def webhook():
                         log("AGE " + str(AGE))
                         log("STATE " + str(STATE))
 
-
                     elif not START:
                         send_start(sender_id) # VOLUNTEER OR CLIENT?
                         START = True
                         log("START " + str(START))
 
-                    elif not AGE:
-                        send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) \nEnter in your state (eg. NY) or enter SKIP:")                        #send_message("Enter in the initials of your state (eg: NY or PA) OR enter SKIP:")
-                        # save message_text as AGE
-                        AGE = True
-                        log("AGE " + str(AGE))
+                    if USER == "CLIENT":
 
-                    elif not STATE:
-                        send_message(sender_id, "We will connect you to your volunteer legal advisor shortly.")
-                        # save message_text as STATE
-                        STATE = True
-                        log("STATE " + str(STATE))
+                        elif not AGE:
+                            send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) \nEnter in your state (eg. NY) or enter SKIP:")                        #send_message("Enter in the initials of your state (eg: NY or PA) OR enter SKIP:")
+                            # save message_text as AGE
+                            AGE = True
+                            log("AGE " + str(AGE))
+
+                        elif not STATE:
+                            send_message(sender_id, "We will connect you to your volunteer legal advisor shortly.")
+                            # save message_text as STATE
+                            STATE = True
+                            log("STATE " + str(STATE))
 
                     else:
                         log("----------- MESSAGE NOT CAUGHT -----------")
