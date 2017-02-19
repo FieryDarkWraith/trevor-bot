@@ -44,6 +44,9 @@ def webhook():
                 log("---------- INCOMING MESSAGE: -----------")
                 log(messaging_event)
 
+                USER = db.identifyUser( sender_id )
+                QUESTION = db.questionUser( sender_id )
+
                 if messaging_event.get("message"):  # someone sent us a message
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     message_text = messaging_event["message"]["text"]  # the message's text
@@ -68,9 +71,7 @@ def webhook():
                     elif message_text == "HELP":
                         send_message(sender_id, "Type STOP to end conversation.")
                         send_message(sender_id, "Type RESET to restart.")
-                        
-                    USER = db.identifyUser( sender_id )
-                    QUESTION = db.questionUser( sender_id )
+
 
                     log("-------USER: " + USER)
                     log("-------QUESTION: " + QUESTION)
