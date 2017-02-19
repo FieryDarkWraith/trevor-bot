@@ -28,8 +28,6 @@ def verify():
 def webhook():
     db.create()
 
-    global USER
-    global QUESTION
     log("-------USER: " + USER)
     log("-------QUESTION: " + QUESTION)
     # endpoint for processing incoming messaging events
@@ -56,6 +54,7 @@ def webhook():
 
                     USER = db.identifyUser( sender_id )
                     QUESTION = db.questionUser( sender_id )
+
                     if USER == "CLIENT":
 
                         if QUESTION == "AGE":
