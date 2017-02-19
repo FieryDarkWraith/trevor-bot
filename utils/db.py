@@ -75,6 +75,8 @@ def updateClientFocus( _id, focus ):
     db.commit()
 def updateClientQuestion( _id, question ):
     q = "UPDATE questions SET QUESTION = '%s' WHERE ID = '%s';"%(question, _id )
+    cursor.execute(q)
+    db.commit()
 
 def showAll():
     q = "SELECT * FROM clients; SELECT * FROM lawyers; SELECT * FROM waitlist;"
