@@ -46,12 +46,12 @@ def webhook():
 
 
                 if messaging_event.get("message"):  # someone sent us a message
-                    USER = db.identifyUser( sender_id )
-                    QUESTION = db.questionUser( sender_id )
+
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     message_text = messaging_event["message"]["text"]  # the message's text
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
-
+                    USER = db.identifyUser( sender_id )
+                    QUESTION = db.questionUser( sender_id )
                     if (message_text == "RESET" or message_text == "START" or message_text == "STOP"):
                         if message_text == "STOP" and USER == "CLIENT":
                             pair_id = db.findMatchingId( sender_id )
