@@ -55,6 +55,7 @@ def webhook():
                         db.removeId( sender_id )
                         send_start(sender_id) # VOLUNTEER OR CLIENT?
 
+
                     USER = db.identifyUser( sender_id )
                     QUESTION = db.questionUser( sender_id )
 
@@ -91,6 +92,7 @@ def webhook():
                             send_message( pair_id, message_text )
 
                         elif message_text == "STOP":
+                            pair_id = db.findMatchingId( sender_id )
                             send_message(pair_id, "The conversation has been ended. Thank you for your help.")
                             send_message(sender_id, "The conversation has been ended. Thank you for using Trevor.")
                             send_rating(sender_id)
