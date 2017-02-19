@@ -181,3 +181,13 @@ def removeId( _id ):
     cursor.execute(q)
     q = "DELETE FROM questions WHERE ID = '%s';"%( _id )
     cursor.execute(q)
+
+def getClientAge( _id ):
+    q = "SELECT age FROM clients WHERE ID = '%s';"%( _id )
+    return q
+
+def getClientState( _id ):
+    q = "SELECT currState FROM clients WHERE ID = '%s';"%( _id )
+    return q
+
+def getLawyerInfo( _id ):
