@@ -107,7 +107,6 @@ def webhook():
                     elif action == "CLIENT":
                         USER = "CLIENT"
                         send_message(sender_id, "You are a client")
-                        """
                         tempDict = { }
                         tempDict['id'] = sender_id
                         tempDict['focus'] = 'N/A'
@@ -115,13 +114,12 @@ def webhook():
                         tempDict['age'] = 0
                         #db.addClient( {'id':sender_id, 'age' : 0, 'focus' : 'N/A', 'currState' : 'N/A'} )
                         db.addClient( tempDict )
-                        send_message(sender_id, "Created client")
-                        """
+                        log( db.showAll() )
                         send_categories(sender_id)
                     elif action == "IMMIGRATION_LAW" or action == "CITIZENSHIP" or action == "VISA":
-                        #db.updateClientFocus( sender_id, action )
+                        db.updateClientFocus( sender_id, action )
                         send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) \nEnter in your age OR enter SKIP:")
-                        QUESTION = "AGE"
+                        db.updateClientQuestion(sender_id, "AGE" )
     return "ok", 200
 
 # BOTH: VOLUNTEER OR CLIENT?
