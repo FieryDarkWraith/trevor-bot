@@ -36,7 +36,7 @@ def addClient( info ):
     q = "SELECT * FROM lawyers WHERE pair = 'N/A' AND currState = '%s';"%( info['currState'] )
     result = cursor.execute(q).fetchone()
     pair = ''
-    print result
+    #print result
     if result is None:
         q = "SELECT * FROM lawyers WHERE pair = 'N/A';"
         result = cursor.execute( q ).fetchone()
