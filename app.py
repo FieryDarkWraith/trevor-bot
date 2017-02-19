@@ -46,7 +46,7 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     message_text = messaging_event["message"]["text"]  # the message's text
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
- 
+
                     if (message_text == "RESET" or message_text == "START"):
                         USER = ""
                         QUESTION = ""
@@ -114,7 +114,7 @@ def webhook():
                         tempDict['age'] = 0
                         #db.addClient( {'id':sender_id, 'age' : 0, 'focus' : 'N/A', 'currState' : 'N/A'} )
                         db.addClient( tempDict )
-                        log( db.showAll() )
+                        #log( db.showAll() )
                         send_categories(sender_id)
                     elif action == "IMMIGRATION_LAW" or action == "CITIZENSHIP" or action == "VISA":
                         db.updateClientFocus( sender_id, action )
