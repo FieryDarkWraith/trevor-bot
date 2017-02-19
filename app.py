@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf8 -*-
+
 import os
 import sys
 import json
@@ -46,7 +49,11 @@ def webhook():
                     message_text = messaging_event["message"]["text"]  # the message's text
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
 
-                    if (message_text == "RESET" or message_text == "START"):
+                    if (message_text == "RESET" or message_text == "START" or message_text == "TREVOR STOP"):
+                        if message_text == "TREVOR STOP":
+                            send_message(pair_id, "Your client has ended the conversation. Thank you for your help.")
+                            send_message(sender_id, "You have ended the conversation. Thank you for using Trevor.")
+                            send_rating(sender_id)
                         USER = ""
                         QUESTION = ""
                         db.removeId( sender_id )
@@ -80,8 +87,8 @@ def webhook():
                                 pair_id = db.findMatchingId( sender_id )
                             if pair_id != None and db.questionUser( pair_id ) == "DONE" :
                                 log( pair_id )
-                                send_message( pair_id, "You have been connected to a client.")#\n\nThis is the information your client has provided:\nAge: "+ str(db.getClientAge( sender_id )) + "\nState: " + str(db.getClientState( sender_id )) + "\nBelow is their inquiry.")
-                                send_message( sender_id, "You have been connected to a legal advisor.")#\n\nThis is the information he or she has provided:\nName: " + str(db.getLawyerName( pair_id )) + "\nState: " + str(db.getLawyerState( pair_id ))+"\nBelow is his or her answer.")
+                                send_message( sender_id, "You have been connected to a legal advisor. \n\nThis is the information he or she has provided:\nName: %s \nState: %s\n Below is his or her answer."%( db.getLawyerName( pair_id ), db.getLawyerState( pair_id ) ) )
+                                send_message( pair_id, "You have been connected to a client. \n\nThis is the information your client has provided:\nAge: %d \nState: %s \nBelow is his or her inquiry"%( db.getClientAge( sender_id ), db.getClientState( sender_id ) ))
 
                         elif QUESTION == "DONE":
                             #send_message( sender_id, "handshake betch")
@@ -253,6 +260,53 @@ def send_categories(recipient_id):
                     "type":"postback",
                     "title":"VISA",
                     "payload":"VISA"
+                  }
+                ]
+              }
+            }
+        }
+    })
+    log(data)
+    #log( USER )
+    #log( QUESTION )
+    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
+    if r.status_code != 200:
+        log(r.status_code)
+        log(r.text)
+
+def send_rating(recipient_id):
+    #log("sending message to {recipient}: {text}".format(recipient=recipient_id), text="Hello, I'm Trevor. Would you like to volunteer your legal services or ask a legal question?")
+    params = {
+        "access_token": os.environ["PAGE_ACCESS_TOKEN"]
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+    data = json.dumps({
+        "recipient": {
+            "id": recipient_id
+        },
+         "message":{
+            "attachment":{
+              "type":"template",
+              "payload":{
+                "template_type":"button",
+                "text":"Please rate the legal help you've received. This helps better our quality of legal advisors.",
+                "buttons":[
+                  {
+                    "type":"postback",
+                    "title":"★★★★★",
+                    "payload":"5"
+                  },
+                  {
+                    "type":"postback",
+                    "title":"★★★",
+                    "payload":"3"
+                  },
+                  {
+                    "type":"postback",
+                    "title":"★",
+                    "payload":"1"
                   }
                 ]
               }
