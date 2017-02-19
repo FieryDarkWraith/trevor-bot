@@ -109,6 +109,7 @@ def webhook():
                     elif action == "CLIENT":
                         USER = "CLIENT"
                         send_message(sender_id, "You are a client")
+                        """
                         tempDict = { }
                         tempDict['id'] = sender_id
                         tempDict['focus'] = 'N/A'
@@ -117,6 +118,7 @@ def webhook():
                         #db.addClient( {'id':sender_id, 'age' : 0, 'focus' : 'N/A', 'currState' : 'N/A'} )
                         db.addClient( tempDict )
                         send_message(sender_id, "Created client")
+                        """
                         send_categories(sender_id)
                     elif action == "IMMIGRATION_LAW" or action == "CITIZENSHIP" or action == "VISA":
                         db.updateClientFocus( sender_id, action )
@@ -230,7 +232,9 @@ def send_message(recipient_id, message_text):
             "id": recipient_id
         },
         "message": {
-            "text": message_text
+            "text": message_text,
+            "is_echo": true,
+            "metadata": "DEVELOPER_DEFINED_METADATA_STRING"
         }
     })
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
