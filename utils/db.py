@@ -14,7 +14,8 @@ def addLawyer( info ):
         pair = client
         q = "UPDATE clients SET pair = '%s';"%(info['id'])
         cursor.execute(q);
-        q = "DELETE FROM clients WHERE id = '%s';"%(client)
+        q = "DELETE FROM waitlist WHERE id = '%s';"%(client)
+        cursor.execute(q);
         
     p = "INSERT INTO lawyers VALUES ( '%s', '%s', '%s', '%s', %d );"%( info['id'], pair, info['name'], info['currState'], 3 );
     cursor.execute(p)
@@ -51,12 +52,14 @@ def addClient( info ):
 def findMatchingId( _id ):
     #finds the matching id to a given id.
     #checks through both client and lawyer tables
-    q = "SELECT * FROM clients, lawyers WHERE clients.ID = %s OR lawyers.ID = %s"%( _id, _id )
+    q = "SELECT * FROM clients WHERE ID = '%s'"%( _id )
     result = cursor.execute( q ).fetchone()
     if result is None:
-        return None
-    else:
-        return result[1]
+        q = "SELECT * FROM lawyers WHERE ID = '%s'"%( _id )
+        result = cursor.execute( q ).fetchone()
+        if result is None:
+            return None
+    return result[1]
 
 def checkWaitList( state ):
     #checks the waitlist table of clients.
@@ -77,14 +80,14 @@ def checkWaitList( state ):
 def unpair( client_id, lawyer_id ):
     q = "DELETE FROM clients WHERE ID = '%s' ;"%(client_id)
     cursor.execute(q)
-    client = checkWaitList( info['currState'] )
+    client = checkWaitList( cursor.execute("SELECT * FROM lawyers WHERE ID = '%s';"%(lawyer_id) ).fetchone()[3] )
     pair = ''
     if client is None:
         pair = "N/A"
     else:
         pair = client
-        q = "UPDATE clients SET pair = '%s';"%(info['id'])
+        q = "UPDATE clients SET pair = '%s';"%(lawyer_id)
         cursor.execute(q);
-    q = "UPDATE lawyers WHERE ID = '%s' SET pair = '%s';"%(lawyer_id, pair)
+    q = "UPDATE lawyers SET pair = '%s' WHERE id ='%s';"%(pair, lawyer_id)
     cursor.execute(q)
     db.commit()
