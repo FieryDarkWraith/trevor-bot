@@ -55,6 +55,7 @@ def addClient( info ):
 
 
     p = "INSERT INTO clients VALUES ( '%s', '%s', %d, '%s', '%s' );"%( info['id'], pair, info['age'], info['currState'], info['focus'] )
+    print p
     cursor.execute(p)
     p = "INSERT INTO questions VALUES ( '%s', '%s' );"%( info['id'], "FOCUS")
     cursor.execute(p)
