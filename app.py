@@ -54,6 +54,10 @@ def webhook():
                         START = False
                         AGE = False
                         STATE = False
+                        log("START " + str(START))
+                        log("AGE " + str(AGE))
+                        log("STATE " + str(STATE))
+
 
                     elif not START:
                         send_start(sender_id) # VOLUNTEER OR CLIENT?
