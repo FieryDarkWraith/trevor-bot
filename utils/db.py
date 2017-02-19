@@ -5,7 +5,7 @@ db = sqlite3.connect(dbFile)
 cursor = db.cursor()
 
 #@param info == dictionary with necessary information
-def addLawyer( info ):  
+def addLawyer( info ):
     client = checkWaitList( info['currState'] )
     pair = ''
     if client is None:
@@ -16,13 +16,14 @@ def addLawyer( info ):
         cursor.execute(q);
         q = "DELETE FROM waitlist WHERE id = '%s';"%(client)
         cursor.execute(q);
-        
+
     p = "INSERT INTO lawyers VALUES ( '%s', '%s', '%s', '%s', %d );"%( info['id'], pair, info['name'], info['currState'], 3 );
     cursor.execute(p)
     db.commit()
 
 #@param info == dictionary with necessary information
 def addClient( info ):
+    print info
     q = "SELECT * FROM lawyers WHERE pair = 'N/A' AND currState = '%s';"%( info['currState'] )
     result = cursor.execute(q).fetchone()
     pair = ''
@@ -43,12 +44,26 @@ def addClient( info ):
         q = "UPDATE lawyers SET pair = '%s' WHERE ID = '%s';"%( info['id'], result[0] )
         cursor.execute(q)
 
-        
+
     p = "INSERT INTO clients VALUES ( '%s', '%s', %d, '%s', '%s' );"%( info['id'], pair, info['age'], info['currState'], info['focus'] )
     cursor.execute(p)
     db.commit()
 
-#@param info 
+def updateClientAge( _id, age ):
+    q = "UPDATE clients SET age = %d WHERE ID = '%s'"%(age, _id )
+    cursor.execute(q)
+    db.commit()
+def updateClientState( _id, state ):
+    q = "UPDATE clients SET state = '%s' WHERE ID = '%s'"%(state, _id )
+    cursor.execute(q)
+    db.commit()
+def updateClientFocus( _id, focus ):
+    q = "UPDATE clients SET focus = '%d' WHERE ID = '%s'"%(focus, _id )
+    cursor.execute(q)
+    db.commit()
+
+
+#@param info
 def findMatchingId( _id ):
     #finds the matching id to a given id.
     #checks through both client and lawyer tables
