@@ -188,7 +188,8 @@ def getClientAge( _id ):
     return result[2]
 
 def getClientState( _id ):
-    q = "SELECT currState FROM clients WHERE ID = '%s';"%( _id )
-    return q
+    q = "SELECT * FROM clients WHERE ID = '%s';"%( _id )
+    result = cursor.execute(q).fetchone()
+    return result[3]
 
 #def getLawyerInfo( _id ):
