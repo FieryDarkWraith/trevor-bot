@@ -58,7 +58,7 @@ def webhook():
                             pair_id = db.findMatchingId( sender_id )
                             if message_text == "STOP" and USER == "CLIENT" and pair_id:
                                 send_message(pair_id, "The conversation has been ended. Thank you for your help.\nYou are on standby until next client contacts for help.")
-                                send_message(sender_id, "The conversation has been ended. Thank you for using Trevor.")
+                                send_message(sender_id, "The conversation has been ended. Thank you for using Trevor. Type RESET to ask another question.")
                                 send_rating(sender_id)
                                 db.unpair( sender_id, pair_id )
                                 db.updateLawyerQuestion("WAITITNG")
