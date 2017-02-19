@@ -119,6 +119,7 @@ def webhook():
                         send_categories(sender_id)
                     elif action == "IMMIGRATION_LAW" or action == "CITIZENSHIP" or action == "VISA":
                         db.updateClientFocus( sender_id, action )
+                        log( db.questionUser( sender_id ) )
                         db.updateClientQuestion(sender_id, "AGE" )
                         send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) \nEnter in your age OR enter SKIP:")
 
