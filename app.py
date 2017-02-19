@@ -54,19 +54,23 @@ def webhook():
                     USER = db.identifyUser( sender_id )
                     QUESTION = db.questionUser( sender_id )
                     if (message_text == "RESET" or message_text == "START" or message_text == "STOP"):
-                        pair_id = db.findMatchingId( sender_id )
-                        if message_text == "STOP" and USER == "CLIENT" and pair_id:
-                            send_message(pair_id, "The conversation has been ended. Thank you for your help.\nYou are on standby until next client contacts for help.")
-                            send_message(sender_id, "The conversation has been ended. Thank you for using Trevor.")
-                            send_rating(sender_id)
-                        elif message_text == "STOP" and USER == "LAWYER" and pair_id:
-                            send_message(sender_id, "The conversation has been ended. Thank you for your help.\nYou are on standby until next client contacts for help.")
-                            send_message(pair_id, "The conversation has been ended. Thank you for using Trevor.")
-                            send_rating(pair_id)
-                        USER = ""
-                        QUESTION = ""
-                        db.removeId( sender_id )
-                        send_start(sender_id) # VOLUNTEER OR CLIENT?
+                        if message_text == "STOP":
+                            pair_id = db.findMatchingId( sender_id )
+                            if message_text == "STOP" and USER == "CLIENT" and pair_id:
+                                send_message(pair_id, "The conversation has been ended. Thank you for your help.\nYou are on standby until next client contacts for help.")
+                                send_message(sender_id, "The conversation has been ended. Thank you for using Trevor.")
+                                send_rating(sender_id)
+                                db.unpair( sender_id, pair_id )
+                            elif message_text == "STOP" and USER == "LAWYER" and pair_id:
+                                send_message(sender_id, "The conversation has been ended. Thank you for your help.\nYou are on standby until next client contacts for help.")
+                                send_message(pair_id, "The conversation has been ended. Thank you for using Trevor.")
+                                send_rating(pair_id)
+                                db.unpair( pair_id, sender_id )
+                        else:
+                            USER = ""
+                            QUESTION = ""
+                            db.removeId( sender_id )
+                            send_start(sender_id) # VOLUNTEER OR CLIENT?
 
                     elif message_text == "HELP":
                         send_message(sender_id, "Type STOP to end conversation.")
