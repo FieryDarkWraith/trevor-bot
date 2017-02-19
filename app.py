@@ -70,8 +70,9 @@ def webhook():
                             send_message(sender_id, "received " + message_text)
                             if message_text != "SKIP":
                                 db.updateClientState( sender_id, message_text)
+                            QUESTION = ""   
                             send_message(sender_id, "We will connect you to your volunteer legal advisor shortly.")
-                            QUESTION = ""
+
                             # save message_text as STATE
 
                     elif USER == "VOLUNTEER":
