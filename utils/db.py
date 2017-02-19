@@ -4,6 +4,10 @@ dbFile = "data/trev.db"
 db = sqlite3.connect(dbFile)
 cursor = db.cursor()
 
+def create():
+    q = "CREATE TABLE IF NOT EXISTS clients ( ID TEXT, pair TEXT, age INTEGER, currState TEXT, focus TEXT); CREATE TABLE IF NOT EXISTS lawyers ( ID TEXT, pair TEXT, name TEXT, currState TEXT, rating INTEGER); CREATE TABLE IF NOT EXISTS waitlist ( ID TEXT ); CREATE TABLE IF NOT EXISTS questions ( ID TEXT, QUESTION TEXT);"
+    cursor.execute(q)
+    db.commit()
 #@param info == dictionary with necessary information
 def addLawyer( info ):
     client = checkWaitList( info['currState'] )

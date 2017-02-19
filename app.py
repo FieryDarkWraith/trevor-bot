@@ -26,6 +26,8 @@ def verify():
 # process received messages
 @app.route('/', methods=['POST'])
 def webhook():
+    db.create()
+    
     global USER
     global QUESTION
     log("-------USER: " + USER)
