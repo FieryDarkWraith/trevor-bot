@@ -35,7 +35,7 @@ def webhook():
     global USER
 
     data = request.get_json()
-    l#og(data)  # you may not want to log every incoming message in production, but it's good for testing
+    #log(data)  # you may not want to log every incoming message in production, but it's good for testing
 
     if data["object"] == "page":
 
@@ -71,6 +71,9 @@ def webhook():
                         STATE = True
                         log("STATE " + str(STATE))
                         send_message(sender_id, "We will connect you to your volunteer legal advisor shortly.")
+
+                    else:
+                        log("----------- MESSAGE NOT CAUGHT -----------")
 
                     '''
 
