@@ -27,7 +27,7 @@ def verify():
 @app.route('/', methods=['POST'])
 def webhook():
     db.create()
-    
+
     global USER
     global QUESTION
     log("-------USER: " + USER)
@@ -115,8 +115,7 @@ def webhook():
                         tempDict['currState'] = 'N/A'
                         tempDict['age'] = 0
                         #db.addClient( {'id':sender_id, 'age' : 0, 'focus' : 'N/A', 'currState' : 'N/A'} )
-                        db.addClient( tempDict )
-                        #log( db.showAll() )
+                        log( db.addClient( tempDict ) )
                         send_categories(sender_id)
                     elif action == "IMMIGRATION_LAW" or action == "CITIZENSHIP" or action == "VISA":
                         db.updateClientFocus( sender_id, action )
