@@ -27,6 +27,8 @@ def verify():
 def webhook():
     global USER
     global QUESTION
+    log(USER)
+    log(QUESTION)
     # endpoint for processing incoming messaging events
     data = request.get_json()
     #log(data)  # you may not want to log every incoming message in production, but it's good for testing
@@ -61,6 +63,8 @@ def webhook():
                             QUESTION = ""
                             # save message_text as STATE
 
+                    elif USER == "VOLUNTEER":
+                        pass
                     else:
                         log("----------- MESSAGE NOT CAUGHT -----------")
 
