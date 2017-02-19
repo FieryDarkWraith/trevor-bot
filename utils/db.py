@@ -139,4 +139,4 @@ def questionUser( _id ):
     if result is None:
         return "NONE"
     else:
-        return result
+        return result[1]
