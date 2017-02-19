@@ -59,7 +59,7 @@ def updateClientState( _id, state ):
     cursor.execute(q)
     db.commit()
 def updateClientFocus( _id, focus ):
-    q = "UPDATE clients SET focus = '%d' WHERE ID = '%s'"%(focus, _id )
+    q = "UPDATE clients SET focus = '%s' WHERE ID = '%s'"%(focus, _id )
     cursor.execute(q)
     db.commit()
 def updateClientQuestion( _id, question ):
@@ -128,4 +128,4 @@ def questionUser( _id ):
     if result is None:
         return "NONE"
     else:
-        return result 
+        return result
