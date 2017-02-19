@@ -114,9 +114,9 @@ def webhook():
                             if pair_id != None and db.questionUser( pair_id ) == "DONE" :
                                 log( pair_id )
                                 send_message( pair_id, "You have been connected to a lawyer. <info abt lawyer :) >" )
-                                send_message( sender_id, "You have been connected to a client." + getClientAge(sender_id) )
+                                send_message( sender_id, "You have been connected to a client. " + "hii " + getClientAge(pair_id) )
 
-                        elif QUESTION == "DONE": 
+                        elif QUESTION == "DONE":
                             #send_message( sender_id, "second handshake betch")
                             pair_id = db.findMatchingId( sender_id )
                             send_message( pair_id, message_text + "\n _______________\nEnter 'TREVOR STOP' to end the conversation.")
