@@ -78,8 +78,8 @@ def webhook():
                             pair_id = db.findMatchingId( sender_id )
                             while pair_id == None:
                                 pair_id = db.findMatchingId( sender_id )
-                                if pair_id != None:
-                                    send_message( pair_id, "You have been connected to a client. <info abt client :) >" )
+                            if pair_id != None:
+                                send_message( pair_id, "You have been connected to a client. <info abt client :) >" )
 
                         elif QUESTION == "DONE":
                             #send_message( sender_id, "handshake betch")
@@ -108,9 +108,8 @@ def webhook():
                             pair_id = db.findMatchingId( sender_id )
                             while pair_id == None:
                                 pair_id = db.findMatchingId( sender_id )
-                                if pair_id != None:
-                                    send_message( pair_id, "You have been connected to a lawyer. <info abt client :) >" )
-                                    break;
+                            if pair_id != None:
+                                send_message( pair_id, "You have been connected to a lawyer. <info abt client :) >" )
 
                         elif QUESTION == "DONE":
                             #send_message( sender_id, "second handshake betch")
