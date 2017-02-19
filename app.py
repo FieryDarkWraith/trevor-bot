@@ -5,7 +5,7 @@ import json
 import requests
 from flask import Flask, request
 import globalVar
-#from utils import db
+from utils import db
 
 USER = globalVar.USER
 QUESTION = globalVar.QUESTION
