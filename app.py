@@ -4,10 +4,11 @@ import json
 
 import requests
 from flask import Flask, request
+import globalVar
 #from utils import db
 
-USER = ""
-QUESTION = ""
+USER = globalVar.USER
+QUESTION = globalVar.QUESTION
 
 app = Flask(__name__)
 
