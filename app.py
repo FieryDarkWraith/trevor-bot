@@ -9,6 +9,7 @@ import globalVar
 
 USER = globalVar.USER
 QUESTION = globalVar.QUESTION
+INFO = globalVar.INFO
 
 app = Flask(__name__)
 
@@ -28,6 +29,7 @@ def verify():
 def webhook():
     global USER
     global QUESTION
+    global INFO 
     log("-------USER: " + USER)
     log("-------QUESTION: " + QUESTION)
     # endpoint for processing incoming messaging events
@@ -37,6 +39,10 @@ def webhook():
         USER = request.args.get('USER')
     if 'QUESTION' in request.args('QUESTION'):
         QUESTION = request.args.get('QUESTION')
+    if 'INFO' in request.args:
+        INFO = request.args.get('INFO')
+    else:
+        INFO = { }
     if data["object"] == "page":
 
         for entry in data["entry"]:
@@ -57,14 +63,20 @@ def webhook():
 
                         if QUESTION == "AGE":
                             send_message(sender_id, "received " + message_text)
+                            if message_text != "SKIP":
+                                INFO['age'] = int( message_text )
                             send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) \nEnter in your state (eg. NY) or enter SKIP:")                        #send_message("Enter in the initials of your state (eg: NY or PA) OR enter SKIP:")
                             # save message_text as STATE
                             QUESTION = "STATE"
 
                         elif QUESTION == "STATE":
                             send_message(sender_id, "received " + message_text)
+                            if message_text != "SKIP":
+                                INFO['currState'] = message_text
                             send_message(sender_id, "We will connect you to your volunteer legal advisor shortly.")
                             QUESTION = ""
+                            INFO['id'] = sender_id
+                            db.addClient( INFO )
                             # save message_text as STATE
 
                     elif USER == "VOLUNTEER":
@@ -102,13 +114,7 @@ def webhook():
                         USER = "CLIENT"
                         send_categories(sender_id)
                     elif action == "IMMIGRATION_LAW" or action == "CITIZENSHIP" or action == "VISA":
-                        if action == "IMMIGRATION_LAW":
-                            pass
-                            # save immigration law as category
-                        elif action == "CITIZENSHIP":
-                            pass
-                        elif action == "VISA":
-                            pass
+                        INFO['focus'] = action
                         send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) \nEnter in your age OR enter SKIP:")
                         QUESTION = "AGE"
     return "ok", 200
@@ -221,7 +227,7 @@ def send_message(recipient_id, message_text):
             "text": message_text
         }
     })
-    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data, USER = USER, QUESTION = QUESTION)
+    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data, USER = USER, QUESTION = QUESTION, INFO = INFO)
     if r.status_code != 200:
         log(r.status_code)
         log(r.text)
