@@ -7,8 +7,8 @@ from flask import Flask, request
 import globalVar
 from utils import db
 
-USER = globalVar.USER
-QUESTION = globalVar.QUESTION
+USER = ""
+QUESTION = ""
 
 app = Flask(__name__)
 
@@ -118,8 +118,9 @@ def webhook():
                         send_categories(sender_id)
                     elif action == "IMMIGRATION_LAW" or action == "CITIZENSHIP" or action == "VISA":
                         db.updateClientFocus( sender_id, action )
-                        send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) \nEnter in your age OR enter SKIP:")
                         db.updateClientQuestion(sender_id, "AGE" )
+                        send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) \nEnter in your age OR enter SKIP:")
+
     return "ok", 200
 
 # BOTH: VOLUNTEER OR CLIENT?
