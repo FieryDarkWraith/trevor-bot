@@ -104,7 +104,13 @@ def webhook():
 
                     if action == "VOLUNTEER":
                         USER = "VOLUNTEER"
-                        db.addClient( {'id':sender_id, 'age' : 0, 'focus' : 'N/A', 'currState' : 'N/A'} )
+                        tempDict = { }
+                        tempDict['id'] = sender_id
+                        tempDict['focus'] = 'N/A'
+                        tempDict['currState'] = 'N/A'
+                        tempDict['age'] = 0
+                        #db.addClient( {'id':sender_id, 'age' : 0, 'focus' : 'N/A', 'currState' : 'N/A'} )
+                        db.addClient( tempDict )
                         send_message(sender_id, "You are a volunteer")
                     elif action == "CLIENT":
                         USER = "CLIENT"
