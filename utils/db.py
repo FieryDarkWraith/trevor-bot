@@ -66,7 +66,7 @@ def updateClientAge( _id, age ):
     cursor.execute(q)
     db.commit()
 def updateClientState( _id, state ):
-    q = "UPDATE clients SET state = '%s' WHERE ID = '%s'"%(state, _id )
+    q = "UPDATE clients SET currState = '%s' WHERE ID = '%s'"%(state, _id )
     cursor.execute(q)
     db.commit()
 def updateClientFocus( _id, focus ):
