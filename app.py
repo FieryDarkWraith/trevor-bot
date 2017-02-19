@@ -24,7 +24,7 @@ def verify():
 @app.route('/', methods=['POST'])
 def webhook():
     db.create()
-    log( db.showAll())
+    #log( db.showAll())
 
     USER = ""
     QUESTION = ""
