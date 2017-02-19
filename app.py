@@ -33,10 +33,6 @@ def webhook():
     # endpoint for processing incoming messaging events
     data = request.get_json()
     #log(data)  # you may not want to log every incoming message in production, but it's good for testing
-    if 'USER' in data:
-        USER = data['USER']
-    if 'QUESTION' in data:
-        QUESTION = data['QUESTION']
 
     if data["object"] == "page":
 
@@ -51,6 +47,10 @@ def webhook():
                     message_text = messaging_event["message"]["text"]  # the message's text
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
 
+                    if 'metadata' in messaging_event['message']:
+                        temp = messaging_event["message"]['metadata'].split(",")
+                        USER = temp[0].index("=")[1:]
+                        QUESTION = temp[1].index("=")[1:]   
                     if (message_text == "RESET" or message_text == "START"):
                         USER = ""
                         QUESTION = ""
@@ -233,7 +233,7 @@ def send_message(recipient_id, message_text):
         },
         "message": {
             "text": message_text,
-            "metadata": "DEVELOPER_DEFINED_METADATA_STRING"
+            "metadata": "USER=%s,QUESTION=%s"%(USER, QUESTION)
         }
     })
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
