@@ -7,9 +7,6 @@ from flask import Flask, request
 import globalVar
 from utils import db
 
-USER = ""
-QUESTION = ""
-
 app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
@@ -28,8 +25,9 @@ def verify():
 def webhook():
     db.create()
 
-    log("-------USER: " + USER)
-    log("-------QUESTION: " + QUESTION)
+    USER = ""
+    QUESTION = ""
+
     # endpoint for processing incoming messaging events
     data = request.get_json()
     #log(data)  # you may not want to log every incoming message in production, but it's good for testing
@@ -54,6 +52,9 @@ def webhook():
 
                     USER = db.identifyUser( sender_id )
                     QUESTION = db.questionUser( sender_id )
+
+                    log("-------USER: " + USER)
+                    log("-------QUESTION: " + QUESTION)
 
                     if USER == "CLIENT":
 
