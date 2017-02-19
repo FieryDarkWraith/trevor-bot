@@ -7,10 +7,7 @@ from flask import Flask, request
 #from utils import db
 
 USER = ""
-
-START = False
-AGE = False
-STATE = False
+QUESTION = ""
 
 app = Flask(__name__)
 
@@ -28,10 +25,8 @@ def verify():
 # process received messages
 @app.route('/', methods=['POST'])
 def webhook():
-    global START
-    global AGE
-    global STATE
     global USER
+    global QUESTION
     # endpoint for processing incoming messaging events
     data = request.get_json()
     #log(data)  # you may not want to log every incoming message in production, but it's good for testing
@@ -49,44 +44,25 @@ def webhook():
                     message_text = messaging_event["message"]["text"]  # the message's text
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
 
-                    if (message_text == "RESET"):
-                        START = False
-                        AGE = False
-                        STATE = False
-                        log("START " + str(START))
-                        log("AGE " + str(AGE))
-                        log("STATE " + str(STATE))
-
-                    if not START:
-                        START = True
+                    if (message_text == "RESET" or message_text == "START"):
                         send_start(sender_id) # VOLUNTEER OR CLIENT?
-                        log("START " + str(START))
-                        log("AGE " + str(AGE))
-                        log("STATE " + str(STATE))
 
                     if USER == "CLIENT":
 
-                        if not AGE:
-                            AGE = True
+                        if QUESTION == "AGE":
+                            send_message(sender_id, "received " + message_text)
                             send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) \nEnter in your state (eg. NY) or enter SKIP:")                        #send_message("Enter in the initials of your state (eg: NY or PA) OR enter SKIP:")
-                            # save message_text as AGE
-                            log("START " + str(START))
-                            log("AGE " + str(AGE))
-                            log("STATE " + str(STATE))
-
-                        elif not STATE:
-                            STATE = True
-                            send_message(sender_id, "We will connect you to your volunteer legal advisor shortly.")
                             # save message_text as STATE
-                            log("START " + str(START))
-                            log("AGE " + str(AGE))
-                            log("STATE " + str(STATE))
+                            QUESTION = "STATE"
+
+                        elif QUESTION == "STATE":
+                            send_message(sender_id, "received " + message_text)
+                            send_message(sender_id, "We will connect you to your volunteer legal advisor shortly.")
+                            QUESTION = ""
+                            # save message_text as STATE
 
                     else:
                         log("----------- MESSAGE NOT CAUGHT -----------")
-                        log("START " + str(START))
-                        log("AGE " + str(AGE))
-                        log("STATE " + str(STATE))
 
                     '''
 
@@ -126,6 +102,7 @@ def webhook():
                         elif action == "VISA":
                             pass
                         send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) \nEnter in your age OR enter SKIP:")
+                        QUESTION = "AGE"
     return "ok", 200
 
 # BOTH: VOLUNTEER OR CLIENT?
