@@ -13,4 +13,9 @@ info2['id'] = "bleh"
 info2['currState'] = "New York"
 info2['name'] = "Celine"
 
-db.addLawyer( info2 )
+#db.addLawyer( info2 )
+
+
+#db.unpair( "kevin", "bleh" )
+
+print db.findMatchingId("bleh")
