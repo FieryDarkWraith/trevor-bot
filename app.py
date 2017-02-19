@@ -61,11 +61,13 @@ def webhook():
                                 send_message(sender_id, "The conversation has been ended. Thank you for using Trevor.")
                                 send_rating(sender_id)
                                 db.unpair( sender_id, pair_id )
+                                db.updateLawyerQuestion("WAITITNG")
                                 pair_id = db.findMatchingId( sender_id )
                                 while pair_id == None and db.questionUser( pair_id ) != "DONE" :
                                     pair_id = db.findMatchingId( sender_id )
                                 if pair_id != None and db.questionUser( pair_id ) == "DONE" :
                                     log( pair_id )
+                                    db.updateLawyerQuestion("DONE")
                                     send_message( pair_id, "You have been connected to a legal advisor. \n\nThis is the information he or she has provided:\nName: %s \nState: %s\n Below is his or her answer."%( db.getLawyerName( sender_id ), db.getLawyerState( sender_id ) ) )
                                     send_message( sender_id, "You have been connected to a client. \n\nThis is the information your client has provided:\nAge: %d \nState: %s \nTopic: %s \nBelow is his or her inquiry"%( db.getClientAge( pair_id ), db.getClientState( pair_id ), db.getClientTopic(pair_id) ))
                             elif message_text == "STOP" and USER == "LAWYER" and pair_id:
@@ -73,11 +75,13 @@ def webhook():
                                 send_message(pair_id, "The conversation has been ended. Thank you for using Trevor.")
                                 send_rating(pair_id)
                                 db.unpair( pair_id, sender_id )
+                                db.updateLawyerQuestion("WAITITNG")
                                 pair_id = db.findMatchingId( sender_id )
                                 while pair_id == None and db.questionUser( pair_id ) != "DONE" :
                                     pair_id = db.findMatchingId( sender_id )
                                 if pair_id != None and db.questionUser( pair_id ) == "DONE" :
                                     log( pair_id )
+                                    db.updateLawyerQuestion("DONE")
                                     send_message( pair_id, "You have been connected to a legal advisor. \n\nThis is the information he or she has provided:\nName: %s \nState: %s\n Below is his or her answer."%( db.getLawyerName( sender_id ), db.getLawyerState( sender_id ) ) )
                                     send_message( sender_id, "You have been connected to a client. \n\nThis is the information your client has provided:\nAge: %d \nState: %s \nTopic: %s \nBelow is his or her inquiry"%( db.getClientAge( pair_id ), db.getClientState( pair_id ), db.getClientTopic(pair_id) ))
                         else:
