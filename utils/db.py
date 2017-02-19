@@ -14,6 +14,17 @@ def create():
     q = "CREATE TABLE IF NOT EXISTS questions ( ID TEXT, QUESTION TEXT);"
     cursor.execute(q)
     db.commit()
+
+def clear():
+    q = "DELETE FROM clients;"
+    cursor.execute(q)
+    q = "DELETE FROM lawyers;"
+    cursor.execute(q)
+    q = "DELETE FROM waitlist;"
+    cursor.execute(q)
+    q = "DELETE FROM questions;"
+    cursor.execute(q)
+    
 #@param info == dictionary with necessary information
 def addLawyer( info ):
     client = checkWaitList( info['currState'] )

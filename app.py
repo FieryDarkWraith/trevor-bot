@@ -23,6 +23,7 @@ def verify():
 # process received messages
 @app.route('/', methods=['POST'])
 def webhook():
+    db.clear()
     db.create()
     #log( db.showAll())
 
@@ -75,6 +76,10 @@ def webhook():
                             db.updateClientQuestion(sender_id, "DONE")
                             send_message(sender_id, "We will connect you to your volunteer legal advisor shortly.")
 
+                        elif QUESTION == "DONE":
+                            pair_id = db.findMatchingId( sender_id )
+                            send_message( pair_id, message_text )
+
                             # save message_text as STATE
 
                     elif USER == "VOLUNTEER":
@@ -95,6 +100,9 @@ def webhook():
                             db.updateLawyerQuestion(sender_id, "DONE")
                             send_message(sender_id, "You will be contacted by a client shortly.")
 
+                        elif QUESTION == "DONE":
+                            pair_id = db.findMatchingId( sender_id )
+                            send_message( pair_id, message_text )
 
 
 
