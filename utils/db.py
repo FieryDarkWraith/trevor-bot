@@ -124,4 +124,8 @@ def identifyUser( _id ):
 
 def questionUser( _id ):
     q = "SELECT * FROM questions WHERE ID = '%s';"%( _id )
-    return cursor.execute(q).fetchone()
+    result = cursor.execute(q).fetchone()
+    if result is None:
+        return "NONE"
+    else:
+        return result 
