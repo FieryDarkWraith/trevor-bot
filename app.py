@@ -23,7 +23,6 @@ def verify():
 # process received messages
 @app.route('/', methods=['POST'])
 def webhook():
-    db.clear()
     db.create()
     #log( db.showAll())
 
