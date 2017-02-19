@@ -78,6 +78,7 @@ def webhook():
                         elif not STATE:
                             send_message(sender_id, "We will connect you to your volunteer legal advisor shortly.")
                             # save message_text as STATE
+                            STATE = True
                             log("START " + str(START))
                             log("AGE " + str(AGE))
                             log("STATE " + str(STATE))
