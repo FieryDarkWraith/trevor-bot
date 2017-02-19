@@ -45,6 +45,9 @@ def updateGlobal(b):
 # process received messages
 @app.route('/', methods=['POST'])
 def webhook():
+    global START
+    global AGE
+    global STATE
     # endpoint for processing incoming messaging events
     data = request.get_json()
     #log(data)  # you may not want to log every incoming message in production, but it's good for testing
