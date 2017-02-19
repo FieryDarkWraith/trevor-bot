@@ -42,7 +42,7 @@ def webhook():
         for entry in data["entry"]:
             for messaging_event in entry["messaging"]:
 
-                log("MSG_EVENT:")
+                log("<---------- MSG_EVENT:")
                 log(messaging_event)
 
                 if messaging_event.get("message"):  # someone sent us a message
@@ -50,26 +50,26 @@ def webhook():
                     message_text = messaging_event["message"]["text"]  # the message's text
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
 
-                    if (message_text == "RESTART"):
+                    if (message_text == "RESET"):
                         START = False
                         AGE = False
                         STATE = False
-                        
+
                     elif not START:
                         send_start(sender_id) # VOLUNTEER OR CLIENT?
                         START = True
-                        log("START")
+                        log("START" + str(START))
 
                     elif not AGE:
+                        send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) \nEnter in the initials of your state (eg: NY or PA) OR enter SKIP:")
                         # save message_text as AGE
                         AGE = True
-                        log("AGE")
-                        send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) \nEnter in the initials of your state (eg: NY or PA) OR enter SKIP:")
+                        log("AGE" + str(AGE))
 
                     elif not STATE:
                         # save message_text as STATE
                         STATE = True
-                        log("STATE")
+                        log("STATE" + str(STATE))
                         send_message(sender_id, "We will connect you to your volunteer legal advisor shortly.")
 
                     '''
@@ -93,7 +93,7 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]
 
                     action = messaging_event["postback"]["payload"]
-                    log("ACTION: " + action)
+                    log("<-------ACTION: " + action)
 
                     if action == "VOLUNTEER":
                         USER = "VOLUNTEER"
@@ -148,6 +148,7 @@ def send_start(recipient_id):
             }
         }
     })
+    log("<-------DATA")
     log(data)
     print data
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
@@ -195,6 +196,7 @@ def send_categories(recipient_id):
             }
         }
     })
+    log("<-------DATA")
     log(data)
     print data
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
