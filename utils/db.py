@@ -45,6 +45,11 @@ def addLawyer( info ):
     p = "INSERT INTO questions VALUES ( '%s', '%s' );"%( info['id'], "NAME")
     cursor.execute(p)
     db.commit()
+    if pair != "N/A":
+        return pair
+    else:
+        return None
+
 
 #@param info == dictionary with necessary information
 def addClient( info ):
@@ -70,11 +75,14 @@ def addClient( info ):
 
 
     p = "INSERT INTO clients VALUES ( '%s', '%s', %d, '%s', '%s' );"%( info['id'], pair, info['age'], info['currState'], info['focus'] )
-    print p
     cursor.execute(p)
     p = "INSERT INTO questions VALUES ( '%s', '%s' );"%( info['id'], "FOCUS")
     cursor.execute(p)
     db.commit()
+    if pair != 'N/A':
+        return pair
+    else:
+        return None
 
 def updateClientAge( _id, age ):
     q = "UPDATE clients SET age = %d WHERE ID = '%s'"%(age, _id )

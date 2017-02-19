@@ -75,12 +75,13 @@ def webhook():
                                 db.updateClientState( sender_id, message_text)
                             db.updateClientQuestion(sender_id, "DONE")
                             send_message(sender_id, "We will connect you to your volunteer legal advisor shortly.")
+                            pair_id = db.findMatchingId( sender_id )
+                            if pair_id != None:
+                                send_message( pair_id, "You have been connected to a client. <info abt client :) >" )
 
                         elif QUESTION == "DONE":
                             #send_message( sender_id, "handshake betch")
                             pair_id = db.findMatchingId( sender_id )
-                            if pair_id is not None:
-                                send_message( pair_id, "You have been connected to a client. <info abt client :) >" )
                             send_message( pair_id, message_text )
 
                             # save message_text as STATE
@@ -102,6 +103,9 @@ def webhook():
                                 db.updateLawyerState( sender_id, message_text)
                             db.updateLawyerQuestion(sender_id, "DONE")
                             send_message(sender_id, "You will be contacted by a client shortly.")
+                            pair_id = db.findMatchingId( sender_id )
+                            if pair_id != None:
+                                send_message( pair_id, "You have been connected to a lawyer. <info abt client :) >" )
 
                         elif QUESTION == "DONE":
                             #send_message( sender_id, "second handshake betch")
