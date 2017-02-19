@@ -160,7 +160,7 @@ def send_start(recipient_id):
     })
     #log("<-------DATA")
     log(data)
-    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data, USER = USER, QUESTION = QUESTION)
+    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
     if r.status_code != 200:
         log(r.status_code)
         log(r.text)
@@ -208,7 +208,7 @@ def send_categories(recipient_id):
     log(data)
     log( USER )
     log( QUESTION )
-    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data, USER = USER, QUESTION = QUESTION )
+    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
     if r.status_code != 200:
         log(r.status_code)
         log(r.text)
@@ -232,7 +232,7 @@ def send_message(recipient_id, message_text):
             "text": message_text
         }
     })
-    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data, USER = USER, QUESTION = QUESTION )
+    r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data)
     if r.status_code != 200:
         log(r.status_code)
         log(r.text)
