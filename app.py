@@ -25,15 +25,27 @@ def verify():
 
     return "Hello world", 200
 
-# process received messages
-@app.route('/', methods=['POST'])
-def webhook():
-    # endpoint for processing incoming messaging events
+def updateGlobal(b):
     global START
     global AGE
     global STATE
     global USER
+    if b == "RESET":
+        START = False
+        AGE = False
+        STATE = False
+    elif b == "START":
+        START = True
+    elif b == "AGE":
+        AGE = True
+    elif b == "STATE":
+        STATE = True
 
+
+# process received messages
+@app.route('/', methods=['POST'])
+def webhook():
+    # endpoint for processing incoming messaging events
     data = request.get_json()
     #log(data)  # you may not want to log every incoming message in production, but it's good for testing
 
@@ -51,16 +63,14 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
 
                     if (message_text == "RESET"):
-                        START = False
-                        AGE = False
-                        STATE = False
+                        updateGlobal("RESET")
                         log("START " + str(START))
                         log("AGE " + str(AGE))
                         log("STATE " + str(STATE))
 
                     elif not START:
+                        updateGlobal("START")
                         send_start(sender_id) # VOLUNTEER OR CLIENT?
-                        START = True
                         log("START " + str(START))
                         log("AGE " + str(AGE))
                         log("STATE " + str(STATE))
@@ -68,17 +78,17 @@ def webhook():
                     if USER == "CLIENT":
 
                         if not AGE:
+                            updateGlobal("AGE")
                             send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) \nEnter in your state (eg. NY) or enter SKIP:")                        #send_message("Enter in the initials of your state (eg: NY or PA) OR enter SKIP:")
                             # save message_text as AGE
-                            AGE = True
                             log("START " + str(START))
                             log("AGE " + str(AGE))
                             log("STATE " + str(STATE))
 
                         elif not STATE:
+                            updateGlobal("STATE")
                             send_message(sender_id, "We will connect you to your volunteer legal advisor shortly.")
                             # save message_text as STATE
-                            STATE = True
                             log("START " + str(START))
                             log("AGE " + str(AGE))
                             log("STATE " + str(STATE))
@@ -113,10 +123,10 @@ def webhook():
                     log("------- BUTTON PRESSED: " + action)
 
                     if action == "VOLUNTEER":
-                        USER = "VOLUNTEER"
+                        #USER = "VOLUNTEER"
                         send_message(sender_id, "You are a volunteer")
                     elif action == "CLIENT":
-                        USER = "CLIENT"
+                        #USER = "CLIENT"
                         send_categories(sender_id)
                     elif action == "IMMIGRATION_LAW" or action == "CITIZENSHIP" or action == "VISA":
                         if action == "IMMIGRATION_LAW":
