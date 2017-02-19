@@ -190,4 +190,4 @@ def getClientState( _id ):
     q = "SELECT currState FROM clients WHERE ID = '%s';"%( _id )
     return q
 
-def getLawyerInfo( _id ):
+#def getLawyerInfo( _id ):
