@@ -35,7 +35,7 @@ def webhook():
     #log(data)  # you may not want to log every incoming message in production, but it's good for testing
     if 'USER' in request.args:
         USER = request.args.get('USER')
-    if 'QUESTION' in request.args('QUESTION'):
+    if 'QUESTION' in request.args:
         QUESTION = request.args.get('QUESTION')
     if data["object"] == "page":
 
