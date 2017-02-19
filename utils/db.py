@@ -45,7 +45,8 @@ def addClient( info ):
 
 
     p = "INSERT INTO clients VALUES ( '%s', '%s', %d, '%s', '%s' );"%( info['id'], pair, info['age'], info['currState'], info['focus'] )
-    print "here"
+    cursor.execute(p)
+    p = "INSERT INTO questions VALUES ( '%s', '%s' );"%( info['id'], "FOCUS")
     cursor.execute(p)
     db.commit()
 
@@ -61,7 +62,12 @@ def updateClientFocus( _id, focus ):
     q = "UPDATE clients SET focus = '%d' WHERE ID = '%s'"%(focus, _id )
     cursor.execute(q)
     db.commit()
+def updateClientQuestion( _id, question ):
+    q = "UPDATE questions SET QUESTION = '%s' WHERE ID = '%s';"%(question, _id )
 
+def showAll():
+    q = "SELECT * FROM clients; SELECT * FROM lawyers; SELECT * FROM waitlist;"
+    return cursor.execute(q).fetchall()
 
 #@param info
 def findMatchingId( _id ):
@@ -106,3 +112,16 @@ def unpair( client_id, lawyer_id ):
     q = "UPDATE lawyers SET pair = '%s' WHERE id ='%s';"%(pair, lawyer_id)
     cursor.execute(q)
     db.commit()
+
+
+def identifyUser( _id ):
+    q = "SELECT * FROM lawyers WHERE ID = '%s';"%( _id )
+    if cursor.execute(q).fetchone() is None:
+        return "CLIENT"
+    else:
+        return "VOLUNTEER"
+
+
+def questionUser( _id ):
+    q = "SELECT * FROM questions WHERE ID = '%s';"%( _id )
+    return cursor.execute(q).fetchone()

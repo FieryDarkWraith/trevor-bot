@@ -52,6 +52,8 @@ def webhook():
                         QUESTION = ""
                         send_start(sender_id) # VOLUNTEER OR CLIENT?
 
+                    USER = db.identifyUser( sender_id )
+                    QUESTION = db.questionUser( sender_id )
                     if USER == "CLIENT":
 
                         if QUESTION == "AGE":
