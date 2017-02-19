@@ -25,23 +25,6 @@ def verify():
 
     return "Hello world", 200
 
-def updateGlobal(b):
-    global START
-    global AGE
-    global STATE
-    global USER
-    if b == "RESET":
-        START = False
-        AGE = False
-        STATE = False
-    elif b == "START":
-        START = True
-    elif b == "AGE":
-        AGE = True
-    elif b == "STATE":
-        STATE = True
-
-
 # process received messages
 @app.route('/', methods=['POST'])
 def webhook():
@@ -66,13 +49,15 @@ def webhook():
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
 
                     if (message_text == "RESET"):
-                        updateGlobal("RESET")
+                        START = False
+                        AGE = False
+                        STATE = False
                         log("START " + str(START))
                         log("AGE " + str(AGE))
                         log("STATE " + str(STATE))
 
                     elif not START:
-                        updateGlobal("START")
+                        START = True
                         send_start(sender_id) # VOLUNTEER OR CLIENT?
                         log("START " + str(START))
                         log("AGE " + str(AGE))
@@ -81,7 +66,7 @@ def webhook():
                     if USER == "CLIENT":
 
                         if not AGE:
-                            updateGlobal("AGE")
+                            AGE = True
                             send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) \nEnter in your state (eg. NY) or enter SKIP:")                        #send_message("Enter in the initials of your state (eg: NY or PA) OR enter SKIP:")
                             # save message_text as AGE
                             log("START " + str(START))
@@ -89,7 +74,7 @@ def webhook():
                             log("STATE " + str(STATE))
 
                         elif not STATE:
-                            updateGlobal("STATE")
+                            STATE = True
                             send_message(sender_id, "We will connect you to your volunteer legal advisor shortly.")
                             # save message_text as STATE
                             log("START " + str(START))
