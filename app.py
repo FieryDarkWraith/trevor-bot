@@ -76,9 +76,9 @@ def webhook():
                             send_message(sender_id, "We will connect you to your volunteer legal advisor shortly.")
 
                         elif QUESTION == "DONE":
-                            send_message( sender_id, "handshake betch")
+                            #send_message( sender_id, "handshake betch")
                             pair_id = db.findMatchingId( sender_id )
-                            send_message( pair_id, message_text )
+                            send_message( pair_id, message_text + "\n _______________\n Type in 'TREVOR STOP' to end the conversation.")
 
                             # save message_text as STATE
 
@@ -101,7 +101,7 @@ def webhook():
                             send_message(sender_id, "You will be contacted by a client shortly.")
 
                         elif QUESTION == "DONE":
-                            send_message( sender_id, "second handshake betch")
+                            #send_message( sender_id, "second handshake betch")
                             pair_id = db.findMatchingId( sender_id )
                             send_message( pair_id, message_text )
 
