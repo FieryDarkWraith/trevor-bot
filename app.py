@@ -207,7 +207,8 @@ def send_categories(recipient_id):
         }
     })
     log(data)
-    print data
+    log( USER )
+    log( QUESTION )
     r = requests.post("https://graph.facebook.com/v2.6/me/messages", params=params, headers=headers, data=data, USER = USER, QUESTION = QUESTION )
     if r.status_code != 200:
         log(r.status_code)
