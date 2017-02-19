@@ -44,10 +44,10 @@ def webhook():
                 log("---------- INCOMING MESSAGE: -----------")
                 log(messaging_event)
 
-                USER = db.identifyUser( sender_id )
-                QUESTION = db.questionUser( sender_id )
 
                 if messaging_event.get("message"):  # someone sent us a message
+                    USER = db.identifyUser( sender_id )
+                    QUESTION = db.questionUser( sender_id )
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     message_text = messaging_event["message"]["text"]  # the message's text
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
