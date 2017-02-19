@@ -65,7 +65,7 @@ def webhook():
 
                     if USER == "CLIENT":
 
-                        elif not AGE:
+                        if not AGE:
                             send_message(sender_id, "(OPTIONAL - for your legal advisor to better understand your case) \nEnter in your state (eg. NY) or enter SKIP:")                        #send_message("Enter in the initials of your state (eg: NY or PA) OR enter SKIP:")
                             # save message_text as AGE
                             AGE = True
