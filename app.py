@@ -76,9 +76,9 @@ def webhook():
                             db.updateClientQuestion(sender_id, "DONE")
                             send_message(sender_id, "We will connect you to your volunteer legal advisor shortly.")
                             pair_id = db.findMatchingId( sender_id )
-                            while pair_id == None:
+                            while pair_id == None and db.questionUser( pair_id ) != "DONE" :
                                 pair_id = db.findMatchingId( sender_id )
-                            if pair_id != None:
+                            if pair_id != None and db.questionUser( pair_id ) == "DONE" :
                                 log( pair_id )
                                 send_message( pair_id, "You have been connected to a client. <info abt client :) >" )
                                 send_message( sender_id, "You have been connected to a lawyer. <info abt lawyer :) >" )
@@ -109,9 +109,9 @@ def webhook():
                             db.updateLawyerQuestion(sender_id, "DONE")
                             send_message(sender_id, "You will be contacted by a client shortly.")
                             pair_id = db.findMatchingId( sender_id )
-                            while pair_id == None:
+                            while pair_id == None and db.questionUser( pair_id ) != "DONE" :
                                 pair_id = db.findMatchingId( sender_id )
-                            if pair_id != None:
+                            if pair_id != None and db.questionUser( pair_id ) == "DONE" :
                                 log( pair_id )
                                 send_message( pair_id, "You have been connected to a lawyer. <info abt lawyer :) >" )
                                 send_message( sender_id, "You have been connected to a client. <info abt client :) >" )
