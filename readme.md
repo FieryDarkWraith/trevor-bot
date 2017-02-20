@@ -1,14 +1,37 @@
-# Facebook Messenger Bot
-This is a simple python template that uses Flask to build a webhook for Facebook's Messenger Bot API.
+# Trevor 
+> "Top Overall Hack" in CodeDay NY 2017 (February 17 - February 18)
 
-Read more in my [tutorial that uses this repository](https://blog.hartleybrody.com/fb-messenger-bot/).
+By Nancy Cao, Kevin Zhang, Celine Yan
 
-## "Callback verification failed"
+### Purpose
 
-![Facebook Error](https://cloud.githubusercontent.com/assets/18402893/21538944/f96fcd1e-cdc7-11e6-83ee-a866190d9080.png)
+Meet Trevor, the Facebook Messenger Bot that connects clients who need legal advice with legal advisors who want to volunteer free legal service and provide answers. Trevor serves as a pipe for conversation between the Client and the Volunteer, echoing messages to and from it. It is a identity barrier that prevents either user from identifying the other. This is an essential component that protects the anonymity of clients and volunteers, which avoids bias in answers and promotes equal and standard answers for clients of different sex, race, ethnicity, etc.
 
-The #1 error that gets reported in issues is that facebook returns an error message (like above) when trying to add the heroku endpoint to your facebook chat application.
+The inspiration for this project stems from the controversial immigration ban implemented by executive order of President Trump on January 27, 2017. With so many lawyers and legal advisors who converged to numerous protests around the globe and provided legal advice to those who needed it, we created prototype bot Trevor who lives on Facebook, a popular social media platform worldwide, to facilitate these exchanges virtually. 
 
-Our flask application intentionally returns a 403 Forbidden error if the token that facebook sends doesn't match the token you set using the heroku configuration variables.
+### Focus
 
-If you're getting this error, it likely means that you didn't set your heroku config values properly. Run `heroku config` from the command line within your application and verify that there's a key called `VERIFY_TOKEN` that has been set, and that it's set to the same value as what you've typed into the window on facebook.
+In this hack, we provided three main legal topics to choose from for clients: 
+
+1. Immigration Laws
+2. Citizenship
+3. VISA
+
+### Technicalities
+
+We utilized the Facebook Messenger Bot API and programmed using Python in a Python Wrapper provided by Hartly Brody. We retained Client and Volunteer input information in a SQLite database. In order to test our code, we were required to deploy using Heroku. 
+
+### Future Implementations
+
+- Expand to International Scale
+  - Not only limited to the United States; legal advisors from all over the globe can provide specific legal advice to specific clients, depending on certain laws in certain countries.
+- Language
+  - Clients can select what language they wish to converse in.
+- Ratings
+  - Clients may rate the conversation after calling 'STOP'.
+  - Legal advisors with high ratings will be prioritized to future clients. 
+
+
+
+*Facebook Messenger Bot forked from hartleybrody/fb-messenger-bot*
+
