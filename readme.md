@@ -24,13 +24,20 @@ We utilized the Facebook Messenger Bot API and programmed using Python in a Pyth
 ### Future Implementations
 
 - Expand to International Scale
+
   - Not only limited to the United States; legal advisors from all over the globe can provide specific legal advice to specific clients, depending on certain laws in certain countries.
+
 - Language
+
   - Clients can select what language they wish to converse in.
+
 - Ratings
+
   - Clients may rate the conversation after calling 'STOP'.
+
   - Legal advisors with high ratings will be prioritized to future clients. 
 
+    ​
 
 *readme.md by Celine Yan*
 
